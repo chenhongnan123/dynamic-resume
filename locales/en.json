@@ -1,0 +1,9 @@
+{
+  "header": {
+    "title": "Dynamic resume",
+    "personalIntroduction": "Personal Introduction",
+    "skills": "Skills",
+    "experience": "Experience",
+    "hobby": "hobby"
+  }
+}

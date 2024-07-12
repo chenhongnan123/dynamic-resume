@@ -9,6 +9,8 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 
+import { getCurrentUser } from "@/lib/session";
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -27,11 +29,12 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const userInfo = await getCurrentUser();
   return (
     <html suppressHydrationWarning lang="en">
       <head />
@@ -41,9 +44,9 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }} userInfo={userInfo}>
           <div className="relative flex flex-col h-screen">
-            <Navbar />
+            <Navbar/>
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
             </main>

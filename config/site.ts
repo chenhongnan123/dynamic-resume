@@ -1,4 +1,6 @@
 export type SiteConfig = typeof siteConfig;
+import { BsGithub, BsTwitterX } from "react-icons/bs";
+import { SiBuymeacoffee } from "react-icons/si";
 
 export const siteConfig = {
   name: "Next.js + NextUI",
@@ -66,4 +68,9 @@ export const siteConfig = {
     discord: "https://discord.gg/9b6yyZKmH4",
     sponsor: "https://patreon.com/jrgarciadev",
   },
+  iconLinks: [
+    { name: 'repo', href: 'test', icon: BsGithub },
+    { name: 'twitter', href: "https://twitter.com/weijunext", icon: BsTwitterX },
+    { name: 'buyMeCoffee', href: "https://www.buymeacoffee.com/weijunext", icon: SiBuymeacoffee }
+  ],
 };
