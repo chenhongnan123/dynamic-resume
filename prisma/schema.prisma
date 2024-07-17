@@ -17,13 +17,28 @@ model User {
   id        Int      @id @default(autoincrement())
   sub       String   @unique // 第三方平台的唯一id
   platform  String   // 第三方平台标识，如：github google
-  username  String
+  username  String   @unique
   avatar    String
   email     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  nameCn  String?  // 中文名字
+  nameEn  String?  // 英文名字
+  positionCn  String?  // 中文职位
+  positionEn  String?  // 英文职位
   personalIntroductionEn  String?  // 中文个人简介
   personalIntroductionCn  String?  // 英文个人简介
+}
+
+model Skill {
+  id        Int      @id @default(autoincrement())
+  userid         Int   // 用户Id
+  usersub         String   // 用户第三方平台的id
+  username         String   // 用户名称
+  nameCn  String?  @unique  // 中文技能名称
+  nameEn  String?  @unique  // 英文技能名称
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProfileEn {

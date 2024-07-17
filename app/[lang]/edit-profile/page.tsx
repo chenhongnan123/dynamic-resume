@@ -1,21 +1,32 @@
 "use client"
-import { Button } from "@nextui-org/react";
+import React from "react";
+import { useContext, useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import { rootContext } from "@/components/RootProvider";
+import { httpGet, httpPut } from "@/lib/api";
+import { UserInfo } from "@/types";
+import NamePosition from "@/components/edit-profile/NamePosition";
 import PersonalItroduction from "@/components/edit-profile/PersonalItroduction";
+import Skills from "@/components/edit-profile/Skills";
 
-export default async function EditProfile({
-    params: { lang },
-  }: {
-    params: { lang: string };
-  }) {
+
+export default function EditProfile() {
+    const { userInfo, headerDict, langName } = useContext(rootContext)
+    if (!userInfo) {
+      const router = useRouter()
+      router.push(`/${langName}/login`)
+    }
+    const [ userProfile, setUserProfile ] = useState<UserInfo>({})
+    useEffect(() => {
+      async function init() {
+        const result = await httpGet(`${window.location.origin}/api/user?username=${userInfo?.name}`) as UserInfo
+        setUserProfile(result)
+      }
+      init()
+    }, [userInfo]);
     return <>
-        <div className="grid grid-cols-6">
-          <Button
-          color="primary"
-          className="hidden md:block text-xl col-start-6 col-end-6"
-          >
-            Save
-          </Button>
-        </div>
-        <PersonalItroduction />
+        <NamePosition userProfile={userProfile} setUserProfile={setUserProfile}/>
+        <PersonalItroduction userProfile={userProfile} setUserProfile={setUserProfile}/>
+        <Skills userProfile={userProfile} />
     </>
   }

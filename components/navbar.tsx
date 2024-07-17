@@ -35,7 +35,7 @@ const links = [
   },
   {
     value: "skills",
-    href: "#Pricing",
+    href: "#Skills",
   },
   {
     value: "experience",

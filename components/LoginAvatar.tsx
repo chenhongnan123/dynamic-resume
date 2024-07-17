@@ -23,7 +23,8 @@ export const LoginAvatar = ({ userInfo , langName, liStyles }: any) => {
                     name={userInfo.name}
                     description={userInfo.email}
                     avatarProps={{
-                        src: userInfo.picture
+                        src: userInfo.picture,
+                        disableAnimation: true
                     }}
                     />
                     </DropdownTrigger>

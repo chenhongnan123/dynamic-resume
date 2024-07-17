@@ -1,11 +1,15 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { UserInfo } from "@/types";
 
-const PersonalIntroduction = () => {
+const PersonalIntroduction = ({
+  userProfile,
+}: {
+  userProfile: UserInfo,
+}) => {
   return (
     <section className="lg:py-16"  id="PersonalIntroduction">
       <div className="grid grid-cols-1 sm:grid-cols-24">
@@ -15,28 +19,26 @@ const PersonalIntroduction = () => {
           transition={{ duration: 0.5 }}
           className="col-span-8 place-self-center text-center md:text-left justify-self-start"
         >
-          <h1 className="text-white mb-4 text-4xl md:text-5xl lg:text-8xl lg:leading-normal font-extrabold">
+          <h1 className="mb-4 text-4xl md:text-5xl lg:text-8xl lg:leading-normal font-extrabold">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-600">
               Hello, I&apos;m{" "}
             </span>
             <br></br>
-            {/* <TypeAnimation
-              sequence={[
-                "zhangsan",
-                1000,
-                "Full Stack Developer",
-                1000,
-                "Front End Developer",
-              ]}
-              wrapper="span"
-              speed={50}
-              repeat={Infinity}
-            /> */}
+            {
+              userProfile.name && <TypeAnimation
+                sequence={[
+                  userProfile.name || '',
+                  1000,
+                  userProfile.position || '',
+                ]}
+                wrapper="span"
+                speed={50}
+                repeat={Infinity}
+              />
+            }
           </h1>
           <p className="text-[#ADB7BE] text-base sm:text-lg mb-6 lg:text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptuous.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            voluptuous.
+            {userProfile?.personalIntroduction }
           </p>
           <div>
             {/* <Link

@@ -4,6 +4,7 @@ import {Button} from "@nextui-org/react";
 import { BsGithub } from "react-icons/bs";
 import { signIn } from "next-auth/react";
 
+
 export default function Login({
     params: { lang },
   }: {
