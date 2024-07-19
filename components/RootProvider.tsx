@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { createContext, useState, useEffect } from 'react';
 import { getDictionary, defaultLocale } from "@/lib/i18n";
 import axiosInstance from "@/lib/api/axios";
+import {I18nProvider} from '@react-aria/i18n';
 
 export const rootContext = createContext<any>(null);
 export function RootProvider({ children, userInfo }: {
@@ -31,7 +32,9 @@ export function RootProvider({ children, userInfo }: {
   });
   return (
     <rootContext.Provider value={{userInfo, headerDict, langName}}>
-      {children}
+      <I18nProvider locale={langName === "en" ? "en-EN" : "zh-CN"}>
+        {children}
+      </I18nProvider>
     </rootContext.Provider>
    
   );

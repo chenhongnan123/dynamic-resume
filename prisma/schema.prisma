@@ -41,25 +41,26 @@ model Skill {
   updatedAt DateTime @updatedAt
 }
 
-model ProfileEn {
+model ProjectExp {
   id        Int      @id @default(autoincrement())
-  userSub   String   // 用户第三方平台的唯一id
-  personalIntroduction  String
-  skills    String
-  experience     String
-  hobby     String
+  userid         Int   // 用户Id
+  usersub         String   // 用户第三方平台的id
+  username         String   // 用户名称
+  durationTime  String?   // Time range
+  technologyStackEn  String?   // 英文技术栈
+  technologyStackZh  String?   // 中文技术栈
+  technologyStack  String?   // 技术栈
+  companyNameEn  String?    // 英文公司名称
+  companyNameZh  String?    // 中文公司名称
+  companyName  String?    // 公司名称
+  detailsEn  String?    // 英文项目详情
+  detailsZh  String?    // 中文项目详情
+  details  String?    // 项目详情
+  fileName  String?    // 文件名称
+  fileExtension  String?    // 文件后缀
+  fileSize  Int?    // 文件大小
+  filePath  String?    // 文件路径
+  fileType  String?    // 文件类型
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-model ProfileCn {
-  id        Int      @id @default(autoincrement())
-  userSub   String   // 用户第三方平台的唯一id
-  personalIntroduction  String
-  skills    String
-  experience     String
-  hobby     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-

@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
     // }),
   ],
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({ session, token } : any) => {
       try {
         console.log(token, 'token')
         console.log(session, 'session')
@@ -53,6 +53,6 @@ export const authOptions: NextAuthOptions = {
         return token
       }
     }
-  },
+  } as any,
 }
 export default NextAuth(authOptions)

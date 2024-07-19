@@ -23,7 +23,7 @@ export default function ThreeCanvas({ skills }: {
           {/* <Turtle /> */}
         {/* </Letter> */}
         {skills.map((skill, index) => (
-            <Letter char={skill} position={[randomNumber(-20, 20), 0, 0]} rotation={[0, 0, 0]}>
+            <Letter char={skill} position={[randomNumber(-10, 10), 0, 0]} rotation={[0, 0, 0]}>
               <Turtle /> 
             </Letter>
         ))}
@@ -70,17 +70,18 @@ function Letter({ char, children, stencilBuffer = false, ...props } : {
   position?: number[],
   rotation?: number[],
 }) {
-  const main = useRef()
-  const contents = useRef()
+  const main = useRef() as any
+  const contents = useRef() as any
   const events = useThree((state) => state.events)
-  const controls = useThree((state) => state.controls)
+  const controls = useThree((state) => state.controls) as any
   // The letters contents are moved to its whereabouts in world coordinates
   useFrame(() =>  contents.current.matrix.copy(main.current.matrixWorld))
+  const RigidBodyComponent = RigidBody as any;
   return (
     /** A physics rigid body */
-    <RigidBody restitution={0.1} colliders="cuboid" {...props}>
+    <RigidBodyComponent restitution={0.1} colliders="cuboid" {...props}>
       {/** Center each letter */}
-      <Center ref={main}>
+      <Center ref={main as any}>
         <Text3D
           bevelEnabled
           onDoubleClick={(e) => (e.stopPropagation(), controls.fitToBox(main.current, true))}
@@ -98,10 +99,10 @@ function Letter({ char, children, stencilBuffer = false, ...props } : {
           <MeshTransmissionMaterial clearcoat={1} samples={3} thickness={40} chromaticAberration={0.25} anisotropy={0.4}>
             {/** Render a portalled scene into the "buffer" attribute of transmission material, which is a texture.
                  Since we're moving the contents with the letter shape in world space we take the standard event compute. */}
-            <RenderTexture attach="buffer" stencilBuffer={stencilBuffer} width={512} height={512} compute={events.compute}>
+            <RenderTexture attach="buffer" stencilBuffer={stencilBuffer} width={512} height={512} compute={events.compute as any}>
               {/** Everything in here is self-contained, behaves like a regular canvas, but we're *in* the texture */}
               <color attach="background" args={['#4899c9']} />
-              <group ref={contents} matrixAutoUpdate={false}>
+              <group ref={contents as any} matrixAutoUpdate={false}>
                 {/** Drop the children in here, this is where the sandboxes land. */}
                 {children}
               </group>
@@ -110,6 +111,6 @@ function Letter({ char, children, stencilBuffer = false, ...props } : {
           </MeshTransmissionMaterial>
         </Text3D>
       </Center>
-    </RigidBody>
+    </RigidBodyComponent>
   )
 }

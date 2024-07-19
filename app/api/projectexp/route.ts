@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
 import { getCurrentUser } from "@/lib/session";
-import { UserInfo, Skill } from "@/types";
+import { UserInfo, ProjectExpType } from "@/types";
 
 export async function GET(req: NextRequest) {
   try {
@@ -23,22 +23,39 @@ export async function GET(req: NextRequest) {
       userid: true,
       usersub: true,
       username: true,
-      nameCn: lang === 'zh',
-      nameEn: lang === 'en',
+      durationTime: true,
+      technologyStackZh: lang === 'cn',
+      technologyStackEn: lang === 'en',
+      companyNameZh: lang === 'cn',
+      companyNameEn: lang === 'en',
+      detailsZh: lang === 'cn',
+      detailsEn: lang === 'en',
+      fileName: true,
+      filePath: true,
+      fileSize: true,
+      fileType: true,
       createdAt: true,
       updatedAt: true,
     }
-    const skills = await prisma.skill.findMany({
+    const projectExpList = await prisma.projectExp.findMany({
       where: {
         username,
       },
       select,
-    })
-    const payload = skills.map((item) => ({
+    });
+    console.log('projectExpList', projectExpList, lang)
+    const payload = projectExpList.map((item) => ({
       ...item,
-      name: lang === 'en' ? item.nameEn : item.nameCn,
-      nameEn: null,
-      nameCn: null,
+      technologyStack: lang === 'en' ? item.technologyStackEn : item.technologyStackZh,
+      technologyStackEn: null,
+      technologyStackZh: null,
+      companyName: lang === 'en' ? item.companyNameEn : item.companyNameZh,
+      companyNameEn: null,
+      companyNameZh: null,
+      details: lang === 'en' ? item.detailsEn : item.detailsZh,
+      detailsEn: null,
+      detailsZh: null,
+      durationTime: item.durationTime ? item.durationTime.split(',').map(item => Number(item)) : [],
     }))
     const result = {
       code: ResultEnum.SUCCESS,
@@ -70,23 +87,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(result);
     }
     const body = await req.json();
-    const payload = body.map((item: Skill) => ({
+    const payload = body.map((item: ProjectExpType) => ({
       userid: item.userid,
       username: item.username,
       usersub: item.usersub,
       updatedAt: new Date(),
-      [lang === 'en' ? 'nameEn' : 'nameCn']: item.name,
+      [lang === 'en' ? 'technologyStackEn' : 'technologyStackZh']: item.technologyStack,
+      [lang === 'en' ? 'companyNameEn' : 'companyNameZh']: item.companyName,
+      [lang === 'en' ? 'detailsEn' : 'detailsZh']: item.details,
+      durationTime: item.durationTime?.length > 0 ? `${item.durationTime[0]},${item.durationTime[1]}` : '',
+      fileName: item.fileName,
+      filePath: item.filePath,
+      fileSize: item.fileSize,
+      fileType: item.fileType,
     }))
-    await prisma.skill.deleteMany({
+    await prisma.projectExp.deleteMany({
       where: {
         username: {
           contains: payload.username,
         },
       },
     })
-    await prisma.skill.createMany({
+    await prisma.projectExp.createMany({
       data: payload,
-      skipDuplicates: true,
+      // skipDuplicates: true,
     })
     const result = {
       code: ResultEnum.SUCCESS,

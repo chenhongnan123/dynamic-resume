@@ -8,7 +8,7 @@ import { UserInfo } from "@/types";
 import NamePosition from "@/components/edit-profile/NamePosition";
 import PersonalItroduction from "@/components/edit-profile/PersonalItroduction";
 import Skills from "@/components/edit-profile/Skills";
-
+import ProjectExp from "@/components/edit-profile/ProjectExp";
 
 export default function EditProfile() {
     const { userInfo, headerDict, langName } = useContext(rootContext)
@@ -28,5 +28,6 @@ export default function EditProfile() {
         <NamePosition userProfile={userProfile} setUserProfile={setUserProfile}/>
         <PersonalItroduction userProfile={userProfile} setUserProfile={setUserProfile}/>
         <Skills userProfile={userProfile} />
+        <ProjectExp userProfile={userProfile} />
     </>
   }

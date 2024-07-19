@@ -43,7 +43,7 @@ const NamePosition = ({
                         name="name"
                         id="name"
                         className={inputStyles}
-                        value={userProfile.name}
+                        value={userProfile.name || ''}
                         onChange={(e) => {
                             setUsUpdated(true)
                             setUserProfile({
@@ -63,7 +63,7 @@ const NamePosition = ({
                             name="name"
                             id="name"
                             className={inputStyles}
-                            value={userProfile.position}
+                            value={userProfile.position || ''}
                             onChange={(e) => {
                                 setUsUpdated(true)
                                 setUserProfile({

@@ -43,7 +43,7 @@ function Sphere({ position, scale = 1, speed = 0.1, color = 'white' }: {
 }) {
   return (
     <Float rotationIntensity={40} floatIntensity={20} speed={+speed || 0}>
-      <Instance position={position} scale={scale} color={color} />
+      <Instance position={position as any} scale={scale as any} color={color as any} />
     </Float>
   )
 }
