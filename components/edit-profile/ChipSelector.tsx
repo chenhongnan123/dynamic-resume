@@ -24,18 +24,26 @@ const ChipSelector = ({
     setUpdated: (chips: boolean) => void,
     size?: "sm" | "md" | "lg",
   }) => {
-
-    const randomColor = useMemo((): ResultEnum[] => {
-        const colors: ResultEnum[] = [
-            ResultEnum.DEFAULT,
-            ResultEnum.PRIMARY,
-            ResultEnum.SECONDARY,
-            ResultEnum.SUCCESS,
-            ResultEnum.WARNING,
-            ResultEnum.DANGER,
-        ];
-        return chips.map(() => colors[Math.ceil(Math.random() * colors.length)]);
-    }, [chips])
+    const colors: ResultEnum[] = [
+        ResultEnum.DEFAULT,
+        ResultEnum.PRIMARY,
+        ResultEnum.SECONDARY,
+        ResultEnum.SUCCESS,
+        ResultEnum.WARNING,
+        ResultEnum.DANGER,
+    ];
+    // const chipColor = useMemo((index: any): ResultEnum => {
+    //     const colors: ResultEnum[] = [
+    //         ResultEnum.DEFAULT,
+    //         ResultEnum.PRIMARY,
+    //         ResultEnum.SECONDARY,
+    //         ResultEnum.SUCCESS,
+    //         ResultEnum.WARNING,
+    //         ResultEnum.DANGER,
+    //     ];
+    //     console.log(chips, 'chips');
+    //     return chips.map(() => colors[Math.ceil(Math.random() * colors.length)]);
+    // }, [chips])
 
     // const randomColor = (): ResultEnum => {
     //     const colors: ResultEnum[] = [
@@ -74,7 +82,7 @@ const ChipSelector = ({
                     onClose={() => handleDeleteChips(chip)}
                     variant="shadow"
                     size={size}
-                    color={randomColor[index]}
+                    color={colors[index > colors.length ? index % colors.length : index]}
                     >
                     {chip}
                     </Chip>

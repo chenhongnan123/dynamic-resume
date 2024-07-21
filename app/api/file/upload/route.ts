@@ -12,13 +12,13 @@ export async function POST(req: NextRequest) {
     const authorization = headers().get('authorization')
     const lang = headers().get('Lang')
     const userInfo = await getCurrentUser() as UserInfo
-    // if (authorization !== userInfo?.jti) {
-    //   const result = {
-    //     code: ResultEnum.TOKEN_OVERDUE,
-    //     msg: ResultMessageEnum.TOKEN_OVERDUE
-    //   }
-    //   return NextResponse.json(result);
-    // }
+    if (authorization !== userInfo?.jti) {
+      const result = {
+        code: ResultEnum.TOKEN_OVERDUE,
+        msg: ResultMessageEnum.TOKEN_OVERDUE
+      }
+      return NextResponse.json(result);
+    }
     const formData = await req.formData();
     const file = formData.get("file") as File;
     console.log(file, 'file');

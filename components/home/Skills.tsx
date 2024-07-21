@@ -8,12 +8,11 @@ import ThreeCanvas from "./ThreeCanvas"
 
 let reactRenderDom: any = null
 
-const ThreeSence = ({ userProfile, renderDom }: {
+const Skills = ({ userProfile, renderDom }: {
   userProfile: UserInfo,
-  renderDom: HTMLElement | null
+  renderDom: any
 }) => {
   const [skills, setSkills] = useState<(string)[]>([]);
-  console.log(userProfile, 'userProfile')
   useEffect(() => {
     async function init() {
         const result = await httpGet(`${window.location.origin}/api/skill?username=${userProfile?.username}`) as Skill[];
@@ -22,16 +21,16 @@ const ThreeSence = ({ userProfile, renderDom }: {
             const skills = result.map((skill: Skill) => skill.name?.toUpperCase()) as string[]
             setSkills(skills);
         }
-        // setSkills(["VUE", "REACT", "NODE", "NEXT"]);
     }
     init()
   }, [userProfile]);
   useEffect(() => {
-    if (!renderDom) {
+    if (!renderDom?.current) {
       return
     }
     if (!reactRenderDom) {
-      reactRenderDom = createRoot(renderDom);
+      reactRenderDom = createRoot(renderDom.current);
+      return;
     }
     reactRenderDom.render(
       <ThreeCanvas skills={skills}/>,
@@ -40,4 +39,4 @@ const ThreeSence = ({ userProfile, renderDom }: {
   return <></>
 }
 
-export default ThreeSence;
+export default Skills;

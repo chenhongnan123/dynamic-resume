@@ -259,7 +259,7 @@ const ProjectExp = ({
                 if (result.length > 0) {
                     const list = result.map(item => ({
                         ...item,
-                        technologyStack: (item.technologyStack as string)?.split(','),
+                        technologyStack: item.technologyStack ? (item.technologyStack as string)?.split(',') : [],
                     }));
                     console.log(list, 'list');
                     setProjectExpList(list);

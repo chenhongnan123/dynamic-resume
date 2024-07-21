@@ -3,7 +3,7 @@
   registry: 'https://registry.npmmirror.com',
   pkgs: [
     {
-      name: '@types/negotiator',
+      name: 'react-vertical-timeline-component',
       version: 'latest',
       type: 'tag',
       alias: undefined,
@@ -15,7 +15,7 @@
   cacheDir: '/Users/hongnan.chen/.npminstall_tarball',
   env: {
     npm_config_registry: 'https://registry.npmmirror.com',
-    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save-dev","@types/negotiator"],"original":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save-dev","@types/negotiator"]}',
+    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","react-vertical-timeline-component"],"original":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","react-vertical-timeline-component"]}',
     npm_config_user_agent: 'npminstall/7.11.1 npm/? node/v18.20.3 darwin arm64',
     npm_config_cache: '/Users/hongnan.chen/.npminstall_tarball',
     NODE: '/usr/local/bin/node',

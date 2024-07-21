@@ -9,7 +9,7 @@ import fs from 'fs';
 import path from 'path';
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  const filePath = 'files/20231228_100308.mp4'
+  const filePath = 'public/files/20231228_100308.mp4'
   const fileContent = fs.readFileSync(filePath);
   // res.setHeader('Content-Type', 'application/pdf');
   // res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);

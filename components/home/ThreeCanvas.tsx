@@ -1,13 +1,13 @@
-import { useRef } from 'react'
+import { useRef, memo } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Text3D, Center, Preload, Lightformer, Environment, CameraControls, RenderTexture, ContactShadows, MeshTransmissionMaterial } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import Turtle from './sandboxes/Turtle'
 import { UserInfo, Skill } from "@/types";
 
-export default function ThreeCanvas({ skills }: {
+const ThreeCanvas =  memo(({ skills }: {
   skills: string[]
-}) {
+}) => {
   function randomNumber(min: number, max: number) {
     return Math.random() * (max - min) + min
   }
@@ -22,8 +22,11 @@ export default function ThreeCanvas({ skills }: {
           {/** 独立的物理组件  */}
           {/* <Turtle /> */}
         {/* </Letter> */}
+        <Letter char="SKILLS" position={[2, 30, -2]} rotation={[0, 0, 0]}>
+          <Turtle />
+        </Letter>
         {skills.map((skill, index) => (
-            <Letter char={skill} position={[randomNumber(-10, 10), 0, 0]} rotation={[0, 0, 0]}>
+            <Letter key={index} char={skill} position={[randomNumber(-10, 10), index * 10 + 100, randomNumber(-3, 3)]} rotation={[0, 0, 0]}>
               <Turtle /> 
             </Letter>
         ))}
@@ -61,7 +64,7 @@ export default function ThreeCanvas({ skills }: {
       <Preload all />
     </Canvas>
   )
-}
+})
 
 function Letter({ char, children, stencilBuffer = false, ...props } : {
   char: string,
@@ -114,3 +117,5 @@ function Letter({ char, children, stencilBuffer = false, ...props } : {
     </RigidBodyComponent>
   )
 }
+
+export default ThreeCanvas;

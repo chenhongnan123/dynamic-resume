@@ -199,7 +199,7 @@ export const Navbar = () => {
                   <div className="pt-2">
                     <div className="py-2 font-bold">Links</div>
                     <div className="flex items-center gap-x-5 justify-between">
-                      <ul className="items-center gap-6 flex">
+                      {/* <ul className="items-center gap-6 flex">
                         {iconLinks.map((link) => (
                           <li key={link.name}>
                             <Link
@@ -214,8 +214,8 @@ export const Navbar = () => {
                             </Link>
                           </li>
                         ))}                      
-                      </ul>
-                      <div className="flex items-center justify-end gap-x-5 w-1/2">
+                      </ul> */}
+                      {/* <div className="flex items-center justify-end gap-x-5 w-1/2"> */}
                         <div className="flex max-w-[24px] flex-col items-center justify-center text-inherit">
                           <ThemeSwitch />
                         </div>
@@ -223,7 +223,7 @@ export const Navbar = () => {
                         <div>
                           <LoginAvatar userInfo={userInfo} langName={langName} liStyles={liStyles}/>
                         </div>
-                      </div>
+                      {/* </div> */}
                     </div>
                   </div>
                 </div>
