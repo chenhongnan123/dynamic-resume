@@ -17,7 +17,6 @@ const Skills = ({
     useEffect(() => {
         async function init() {
             const result = await httpGet(`${window.location.origin}/api/skill?username=${userProfile?.username}`) as Skill[];
-            console.log(result, 'result')
             if (result) {
                 const skills = result.map((skill: Skill) => skill.name) as string[]
                 setSkills(skills);

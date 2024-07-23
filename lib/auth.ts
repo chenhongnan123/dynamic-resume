@@ -26,8 +26,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, token } : any) => {
       try {
-        console.log(token, 'token')
-        console.log(session, 'session')
         const res = await prisma.user.upsert({
           where: {
             sub: token.sub
@@ -52,7 +50,7 @@ export const authOptions: NextAuthOptions = {
         console.log(error, 'error')
         return token
       }
-    }
+    },
   } as any,
 }
-export default NextAuth(authOptions)
+export default NextAuth(authOptions);

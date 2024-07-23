@@ -1,0 +1,14 @@
+{
+  "test": "Test",
+  "header": {
+    "title": "Dynamic resume",
+    "personalIntroduction": "Personal Introduction",
+    "skills": "Skills",
+    "experience": "Experience",
+    "hobby": "hobby"
+  },
+  "footer": {
+    "poweredBy": "Powered By",
+    "nextUi": "Next UI"
+  }
+}

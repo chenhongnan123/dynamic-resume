@@ -2,31 +2,23 @@
 import {
   Navbar as NextUINavbar,
   NavbarContent,
-  NavbarMenu,
-  NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
-  NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
-import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
-import { Input } from "@nextui-org/input";
-import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import React from "react";
-import clsx from "clsx";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { LiaAddressCard } from "react-icons/lia";
 
-import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { LangSwitcher } from "./LangSwitcher";
-import { defaultLocale, getDictionary } from "@/lib/i18n";
-import { useContext, useState, useEffect } from 'react';
-import { rootContext } from "@/components/RootProvider";
+import { useState } from 'react';
 import { LoginAvatar } from './LoginAvatar'
+import { useTranslation } from 'react-i18next';
+import { useSession } from "next-auth/react";
 
 const links = [
   {
@@ -48,29 +40,14 @@ const links = [
 ];
 
 export const Navbar = () => {
-  const { userInfo, headerDict } = useContext(rootContext);
-  const {
-    iconLinks,
-  } = siteConfig;
+  const { data: session } = useSession();
+  const userInfo = session?.user;
+  const { t, i18n } = useTranslation();
   const liStyles = "flex flex-col gap-2 text-sm font-medium text-inherit";
-  const params = useParams();
   const pathName = usePathname();
   const isLoginPage = pathName?.includes("/login");
-  const lang = params?.lang;
-  const langName = (lang || defaultLocale) as string;
+  const langName = i18n.language;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [headerDict, setHeaderDict] = useState<any>({});
-
-  // useEffect(() => {
-  //   async function init() {
-  //     const dict = await getDictionary(langName);
-  //     setHeaderDict(dict.header);
-  //   }
-  //   init()
-  //   return () => {
-  //   };
-  // });
-  
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -83,7 +60,7 @@ export const Navbar = () => {
             >
               <LiaAddressCard className="text-4xl"/>
             </Button>
-            {!isLoginPage && <p className="hidden md:block font-bold text-inherit">{headerDict?.title}</p>}
+            {!isLoginPage && <p className="hidden md:block font-bold text-inherit">{t('header.title')}</p>}
           </NextLink>
         </NavbarBrand>
       </NavbarContent>
@@ -98,11 +75,11 @@ export const Navbar = () => {
               <li key={link.value}>
                 <Link
                   href={link.href}
-                  aria-label={headerDict[link.value]}
-                  title={headerDict[link.value]}
+                  aria-label={t(`header.${link.value}`)}
+                  title={t(`header.${link.value}`)}
                   className={liStyles}
                 >
-                  {headerDict[link.value]}
+                  {t(`header.${link.value}`)}
                 </Link>
               </li>
             ))}
@@ -115,34 +92,15 @@ export const Navbar = () => {
           className="hidden md:flex"
           justify="end"
         >
-            {/* <ul className="items-center gap-6 md:flex">
-              {iconLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    aria-label={link.name}
-                    title={link.name}
-                    target="_blank"
-                    className={liStyles}
-                  >
-                    {link.icon &&
-                      React.createElement(link.icon, { className: "text-lg" })}
-                  </Link>
-                </li>
-              ))}
-              <li className="flex max-w-[24px] flex-col items-center justify-center text-inherit">
-                <ThemeSwitch />
-              </li>
-            </ul> */}
-            <NavbarItem>
-              <ThemeSwitch />
-            </NavbarItem>
-            <NavbarItem>
-              <LangSwitcher />
-            </NavbarItem>
-            <NavbarItem>
-              <LoginAvatar userInfo={userInfo} langName={langName} liStyles={liStyles}/>
-            </NavbarItem>
+          <NavbarItem>
+            <ThemeSwitch />
+          </NavbarItem>
+          <NavbarItem>
+            <LangSwitcher />
+          </NavbarItem>
+          <NavbarItem>
+            <LoginAvatar userInfo={userInfo} langName={langName} liStyles={liStyles}/>
+          </NavbarItem>
         </NavbarContent>
       }
       {!isLoginPage &&   
@@ -186,11 +144,11 @@ export const Navbar = () => {
                       <li key={link.value}>
                         <Link
                           href={link.href}
-                          aria-label={headerDict[link.value]}
-                          title={headerDict[link.value]}
+                          aria-label={t(`header.${link.value}`)}
+                          title={t(`header.${link.value}`)}
                           className={liStyles}
                         >
-                          {headerDict[link.value]}
+                          {t(`header.${link.value}`)}
                         </Link>
                       </li>
                     ))}

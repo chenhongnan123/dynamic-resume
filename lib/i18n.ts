@@ -29,6 +29,7 @@ const dictionaries: any = {
   ru: () => import("@/locales/ru.json").then((module) => module.default),
 };
 
+
 export const getDictionary = async (locale: string) => {
   if (["zh-CN", "zh-TW", "zh-HK"].includes(locale)) {
     locale = "zh";
@@ -37,6 +38,8 @@ export const getDictionary = async (locale: string) => {
   if (!Object.keys(dictionaries).includes(locale)) {
     locale = "en";
   }
+  const test = await (dictionaries.en)();
+  console.log(test, 'dictionaries');
 
   return dictionaries[locale]();
 };

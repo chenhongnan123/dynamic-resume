@@ -53,7 +53,6 @@ const ProjectExp = ({
                     ...item,
                     technologyStack: item.technologyStack ? (item.technologyStack as string)?.split(',') : [],
                 }));
-                console.log(list, 'list');
                 setProjectExpList(list);
                 return;
             }
@@ -73,7 +72,6 @@ const ProjectExp = ({
       </div>
     )
   }
-  console.log(theme, 'theme');
   const isDark = theme === 'dark';
   const showdowColor = isDark ? '0 0 0 4px #fff, inset 0 2px #00000014, 0 3px 0 4px #0000000d' : '0 0 0 4px #7bd964, inset 0 2px #00000014, 0 3px 0 4px #0000000d';
   return (
@@ -87,7 +85,7 @@ const ProjectExp = ({
               contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
               date={dateView(item) as any}
               iconClassName={'shadow-black'}
-              iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff', 'box-shadow': showdowColor} as any}
+              iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff', boxShadow: showdowColor} as any}
               icon={<BsPersonWorkspace />}
               visible={true}
             >

@@ -1,20 +1,22 @@
 "use client";
-import {Select, SelectSection, SelectItem} from "@nextui-org/select";
-import { useParams, useRouter, usePathname } from "next/navigation";
+import {Select, SelectItem} from "@nextui-org/select";
+import { useRouter, usePathname } from "next/navigation";
+import { useTranslation } from 'react-i18next';
 
-import { defaultLocale, localeNames } from "@/lib/i18n";
+export const localeNames: any = {
+  en: "🇺🇸 English",
+  zh: "🇨🇳 中文",
+};
 
 export const LangSwitcher = () => {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
-  const params = useParams();
   const pathName = usePathname();
-  console.log(pathName, 'pathName');
-  const lang = params?.lang;
-  let langName = lang || defaultLocale;
+  const langName = i18n.language;
   const handleSwitchLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     if (!pathName) {
-      router.push(`/${value}`);
+      router.push('/');
       return;
     }
     const preLang = pathName.split('/')[1];
@@ -23,7 +25,7 @@ export const LangSwitcher = () => {
   };
 
   return <Select 
-    defaultSelectedKeys={[`${langName}`]}
+    defaultSelectedKeys={[langName]}
     variant={'bordered'}
     className="w-32" 
     onChange={handleSwitchLanguage}

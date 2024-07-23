@@ -1,29 +1,32 @@
 "use client";
 import React from "react";
-import { useContext, useEffect, useState, useRef } from 'react';
-import { useRouter } from "next/navigation";
-import { rootContext } from "@/components/RootProvider";
-import { httpGet, httpPut } from "@/lib/api";
+import { useEffect, useState, useRef } from 'react';
+import { httpGet } from "@/lib/api";
 import PersonalIntroduction from "@/components/home/PersonalIntroduction";
 import Skills from "@/components/home/Skills";
 import ProjectExp from "@/components/home/ProjectExp";
 import { UserInfo } from "@/types";
+import { useSession, signIn } from "next-auth/react";
+import {useLocale} from 'react-aria';
 
 const MainContainer = () => {
-  const { userInfo, headerDict, langName } = useContext(rootContext)
   const threeSenceRef = useRef(null);
-  if (!userInfo) {
-    const router = useRouter()
-    router.push(`/${langName}/login`)
-  }
+  const { data: session } = useSession()
+  console.log(session, 'session999')
+  let test = useLocale();
+  console.log(test, 'locale, direction')
+  // if (!userInfo) {
+  //   const router = useRouter()
+  //   router.push(`/${langName}/login`)
+  // }
   const [ userProfile, setUserProfile ] = useState<UserInfo | null>()
   useEffect(() => {
     async function init() {
-      const result = await httpGet(`${window.location.origin}/api/user?username=${userInfo?.name}`) as UserInfo
+      const result = await httpGet(`${window.location.origin}/api/user?username=${session?.user?.name}`) as UserInfo
       setUserProfile(result)
     }
     init()
-  }, [userInfo]);
+  }, [session]);
   return (
     userProfile ?
     <>

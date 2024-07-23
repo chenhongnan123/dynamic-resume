@@ -12,8 +12,6 @@ import ChipSelector from './ChipSelector';
 import { BsUpload, BsPlus, BsDash, BsFillXCircleFill } from "react-icons/bs";
 import cloneDeep from 'lodash/cloneDeep';
 
-console.log(parseDate('2023-12-31'), 'parseDate');
-
 const ProjectExp = ({
     userProfile,
   }: {
@@ -83,7 +81,6 @@ const ProjectExp = ({
             }
             const payload = new FormData();
             payload.append('file', e.target.files[0]);
-            console.log(e.target.files[0], 'payload');
             const result = await httpPost(`${window.location.origin}/api/file/upload`, payload, {
                 headers: {
                     "Content-Type": "multipart/form-data; boundary=----"
@@ -151,7 +148,6 @@ const ProjectExp = ({
                 </div>
             );
           case "technologyStack":
-            console.log(cellValue, 'technologyStack');
             return (
                 <ChipSelector
                 chips={cellValue as string[]}
@@ -261,7 +257,6 @@ const ProjectExp = ({
                         ...item,
                         technologyStack: item.technologyStack ? (item.technologyStack as string)?.split(',') : [],
                     }));
-                    console.log(list, 'list');
                     setProjectExpList(list);
                     return;
                 }

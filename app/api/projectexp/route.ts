@@ -43,7 +43,6 @@ export async function GET(req: NextRequest) {
       },
       select,
     });
-    console.log('projectExpList', projectExpList, lang)
     const payload = projectExpList.map((item) => ({
       ...item,
       technologyStack: lang === 'en' ? item.technologyStackEn : item.technologyStackZh,

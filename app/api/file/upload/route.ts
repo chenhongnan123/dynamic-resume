@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
     }
     const formData = await req.formData();
     const file = formData.get("file") as File;
-    console.log(file, 'file');
     // 将文件保存到服务器的文件系统中
     const fileBuffer = await file.arrayBuffer();
     const filePath = "public/files/" + file.name;

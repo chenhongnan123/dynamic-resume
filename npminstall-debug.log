@@ -3,7 +3,28 @@
   registry: 'https://registry.npmmirror.com',
   pkgs: [
     {
-      name: 'react-vertical-timeline-component',
+      name: 'i18next',
+      version: 'latest',
+      type: 'tag',
+      alias: undefined,
+      arg: [Result]
+    },
+    {
+      name: 'react-i18next',
+      version: 'latest',
+      type: 'tag',
+      alias: undefined,
+      arg: [Result]
+    },
+    {
+      name: 'i18next-resources-to-backend',
+      version: 'latest',
+      type: 'tag',
+      alias: undefined,
+      arg: [Result]
+    },
+    {
+      name: 'next-i18n-router',
       version: 'latest',
       type: 'tag',
       alias: undefined,
@@ -15,7 +36,7 @@
   cacheDir: '/Users/hongnan.chen/.npminstall_tarball',
   env: {
     npm_config_registry: 'https://registry.npmmirror.com',
-    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","react-vertical-timeline-component"],"original":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","react-vertical-timeline-component"]}',
+    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","i18next","react-i18next","i18next-resources-to-backend","next-i18n-router"],"original":["--fix-bug-versions","--china","--userconfig=/Users/hongnan.chen/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","i18next","react-i18next","i18next-resources-to-backend","next-i18n-router"]}',
     npm_config_user_agent: 'npminstall/7.11.1 npm/? node/v18.20.3 darwin arm64',
     npm_config_cache: '/Users/hongnan.chen/.npminstall_tarball',
     NODE: '/usr/local/bin/node',

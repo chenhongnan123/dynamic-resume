@@ -5,9 +5,9 @@ import { NextUIProvider } from "@nextui-org/system";
 import { useRouter, useParams } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
-import { createContext, useState, useEffect } from 'react';
-import { getDictionary, defaultLocale } from "@/lib/i18n";
-import { RootProvider } from "@/components/RootProvider"
+import { I18nProvider } from '@react-aria/i18n';
+import axiosInstance from "@/lib/api/axios";
+import { useTranslation } from 'react-i18next';
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -15,14 +15,19 @@ export interface ProvidersProps {
   userInfo: any;
 }
 
-export const userInfoContext = createContext<any>(null);
 export function Providers({ children, themeProps, userInfo }: ProvidersProps) {
+  const { i18n } = useTranslation();
+  const langName = i18n.language;
+  axiosInstance.defaults.headers.common.Authorization = userInfo?.jti
+  axiosInstance.defaults.headers.common.Lang = langName;
   const router = useRouter();
   return (
-    <RootProvider userInfo={userInfo}>
-      <NextUIProvider navigate={router.push}>
-        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-      </NextUIProvider>
-    </ RootProvider>
+    <NextUIProvider navigate={router.push}>
+      <NextThemesProvider {...themeProps}>
+        <I18nProvider locale={langName === "en" ? "en-EN" : "zh-CN"}>
+          {children}
+        </I18nProvider>
+      </NextThemesProvider>
+    </NextUIProvider>
   );
 }

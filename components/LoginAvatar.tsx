@@ -12,18 +12,12 @@ export const LoginAvatar = ({ userInfo , langName, liStyles }: any) => {
             <div>
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
-                    {/* <Avatar
-                        isBordered
-                        as="button"
-                        className="transition-transform w-8 h-8"
-                        src={userInfo.picture}
-                    /> */}
                     <User   
                     className="cursor-pointer"
                     name={userInfo.name}
                     description={userInfo.email}
                     avatarProps={{
-                        src: userInfo.picture,
+                        src: userInfo.image,
                         disableAnimation: true
                     }}
                     />
