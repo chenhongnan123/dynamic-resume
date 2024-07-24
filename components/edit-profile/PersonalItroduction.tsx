@@ -6,7 +6,7 @@ import { httpPut } from "@/lib/api";
 import { UserInfo } from "@/types";
 
 
-const PersonalIntroduction = ({
+const introduction = ({
     userProfile,
     setUserProfile
   }: {
@@ -15,13 +15,13 @@ const PersonalIntroduction = ({
   }) => {
     const [ isUpdated, setUsUpdated ] = useState(false)
 
-    async function updatePersonalIntroduction() {
+    async function updateintroduction() {
         const result = await httpPut(`${window.location.origin}/api/user`, userProfile)
         setUsUpdated(false)
     }
 
     return (
-        <section className="py-8"  id="PersonalIntroduction">
+        <section className="py-8"  id="introduction">
             <div className="grid grid-cols-6">
             <div className="leading-8 font-medium col-start-1 col-end-5 text-xl">Personal Introduction</div>
             <Button
@@ -29,7 +29,7 @@ const PersonalIntroduction = ({
             className="col-start-8 col-end-8 text-md"
             size="sm"
             isDisabled={!isUpdated}
-            onClick={updatePersonalIntroduction}
+            onClick={updateintroduction}
             >
                 Save
             </Button>
@@ -40,12 +40,12 @@ const PersonalIntroduction = ({
                 id="message"
                 rows={4}
                 className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={userProfile?.personalIntroduction}
+                value={userProfile?.introduction}
                 onChange={(e) => {
                     setUsUpdated(true)
                     setUserProfile({
                         ...userProfile,
-                        personalIntroduction: e.target.value
+                        introduction: e.target.value
                     })
                 }}
                 >
@@ -55,4 +55,4 @@ const PersonalIntroduction = ({
     );
 };
 
-export default PersonalIntroduction;
+export default introduction;

@@ -23,34 +23,35 @@ export const authOptions: NextAuthOptions = {
     //   clientSecret: process.env.GOOGLE_SECRET
     // }),
   ],
-  callbacks: {
-    session: async ({ session, token } : any) => {
-      try {
-        const res = await prisma.user.upsert({
-          where: {
-            sub: token.sub
-          },
-          update: {
-            // 使用token中的数据
-            username: token.name || '',
-            avatar: token.picture || '',
-            email: token.email || '',
-          },
-          create: {
-            // 使用token中的数据 
-            sub: token.sub || '',
-            username: token.name || '',
-            avatar: token.picture || '',
-            email: token.email || '',
-            platform: 'github',
-          }
-        })
-        return token
-      } catch (error) {
-        console.log(error, 'error')
-        return token
-      }
-    },
-  } as any,
+  // callbacks: {
+  //   session: async ({ session, token } : any) => {
+  //     console.log(session, token, 'session, token');
+  //     try {
+  //       const res = await prisma.user.upsert({
+  //         where: {
+  //           sub: token.sub
+  //         },
+  //         update: {
+  //           // 使用token中的数据
+  //           username: token.name || '',
+  //           avatar: token.picture || '',
+  //           email: token.email || '',
+  //         },
+  //         create: {
+  //           // 使用token中的数据 
+  //           sub: token.sub || '',
+  //           username: token.name || '',
+  //           avatar: token.picture || '',
+  //           email: token.email || '',
+  //           platform: 'github',
+  //         }
+  //       })
+  //       return token
+  //     } catch (error) {
+  //       console.log(error, 'error')
+  //       return token
+  //     }
+  //   },
+  // } as any,
 }
 export default NextAuth(authOptions);

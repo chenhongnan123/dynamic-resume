@@ -60,7 +60,9 @@ const ChipSelector = ({
 
     const [chip, setChip] = useState<string>('');
     const [ isInvalid, setIsInvalid ] = useState(false)
+    const [ errorMessage, setErrorMessage ] = useState('')
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    
 
     const handleDeleteChips = (chipToRemove: string) => {
         setChips(chips.filter((chip: string) => chip !== chipToRemove));
@@ -115,11 +117,22 @@ const ChipSelector = ({
                         variant="bordered"
                         isInvalid={isInvalid}
                         color={isInvalid ? "danger" : "success"}
-                        errorMessage="Chip already exists or is empty"
+                        errorMessage={errorMessage}
                         onValueChange={(value) => {
                             setChip(value)
-                            if (value === "" || chips.includes(value)) {
+                            if (value === "") {
                                 setIsInvalid(true);
+                                setErrorMessage('Skill can not be is empty!');
+                                return
+                            };
+                            if (chips.includes(value)) {
+                                setIsInvalid(true);
+                                setErrorMessage('Skill is already exists!');
+                                return
+                            };
+                            if (!/^[a-zA-Z]+$/.test(value)) {
+                                setIsInvalid(true);
+                                setErrorMessage('Skill is only letters!');
                                 return
                             };
                             setIsInvalid(false);

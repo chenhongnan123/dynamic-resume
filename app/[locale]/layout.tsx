@@ -5,7 +5,7 @@ import { Providers } from "../providers";
 import { siteConfig } from "@/config/site";
 import { Navbar } from "@/components/navbar";
 
-import { getCurrentUser } from "@/lib/session";
+// import { getCurrentUser } from "@/lib/session";
 import SessionProvider from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
 
@@ -40,15 +40,16 @@ export default async function Home({
   children: React.ReactNode;
 }) {
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
-  const userInfo = await getCurrentUser();
+  // const userInfo = await getCurrentUser();
   const session = await getServerSession();
-  console.log(resources, 'resources');
+  // const session = await getServerSession();
+  // console.log(resources, 'resources')
   return (
     <TranslationsProvider
     namespaces={i18nNamespaces}
     locale={locale}
     resources={resources}>
-      <Providers themeProps={{ attribute: "class", defaultTheme: "light" }} userInfo={userInfo}>
+      <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
         <SessionProvider session={session}>
             <div className="relative flex flex-col h-screen">
               <Navbar/>

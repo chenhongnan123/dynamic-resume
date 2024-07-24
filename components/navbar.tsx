@@ -12,18 +12,17 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { LiaAddressCard } from "react-icons/lia";
-
-import { ThemeSwitch } from "@/components/theme-switch";
-import { LangSwitcher } from "./LangSwitcher";
 import { useState } from 'react';
-import { LoginAvatar } from './LoginAvatar'
+import { ThemeSwitch } from "@/components/navbar/theme-switch";
+import { LangSwitcher } from "@/components/navbar/LangSwitcher";
+import { LoginAvatar } from '@/components/navbar/LoginAvatar'
 import { useTranslation } from 'react-i18next';
 import { useSession } from "next-auth/react";
 
 const links = [
   {
-    value: "personalIntroduction",
-    href: "#PersonalIntroduction",
+    value: "introduction",
+    href: "#introduction",
   },
   {
     value: "skills",

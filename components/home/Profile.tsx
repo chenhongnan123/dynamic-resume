@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { UserInfo } from "@/types";
 
-const PersonalIntroduction = ({
+const introduction = ({
   userProfile,
 }: {
   userProfile: UserInfo,
 }) => {
   return (
-    <section className="lg:py-16"  id="PersonalIntroduction">
+    <section className="lg:py-16"  id="introduction">
       <div className="grid grid-cols-1 sm:grid-cols-24">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -38,7 +38,7 @@ const PersonalIntroduction = ({
             }
           </h1>
           <p className="text-[#ADB7BE] text-base sm:text-lg mb-6 lg:text-xl">
-            {userProfile?.personalIntroduction }
+            {userProfile?.introduction }
           </p>
           <div>
             {/* <Link
@@ -62,4 +62,4 @@ const PersonalIntroduction = ({
   );
 };
 
-export default PersonalIntroduction;
+export default introduction;

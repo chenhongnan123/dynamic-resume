@@ -266,7 +266,7 @@ const ProjectExp = ({
         init()
     }, [userProfile]);
 
-    async function updatePersonalIntroduction() {
+    async function updateintroduction() {
         const {
             id,
             username,
@@ -292,7 +292,7 @@ const ProjectExp = ({
                 className="col-start-8 col-end-8 text-md"
                 size="sm"
                 isDisabled={!isUpdated}
-                onClick={updatePersonalIntroduction}
+                onClick={updateintroduction}
                 >
                     Save
                 </Button>

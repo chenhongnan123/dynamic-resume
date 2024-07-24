@@ -1,48 +1,47 @@
 "use client";
 import React from "react";
-import { useState, useEffect } from 'react';
-import { httpGet, httpPost } from "@/lib/api";
+import { useState, useMemo } from 'react';
+import { httpPut } from "@/lib/api";
 import { UserInfo, Skill } from "@/types";
 import { Button } from "@nextui-org/react";
 import ChipSelector from './ChipSelector';
 
 const Skills = ({
     userProfile,
+    setUserProfile,
   }: {
     userProfile: UserInfo,
+    setUserProfile: (userProfile: UserInfo) => void
   }) => {
     const [ isUpdated, setUpdated ] = useState(false);
-    const [skills, setSkills] = useState<(string)[]>([]);
 
-    useEffect(() => {
-        async function init() {
-            const result = await httpGet(`${window.location.origin}/api/skill?username=${userProfile?.username}`) as Skill[];
-            if (result) {
-                const skills = result.map((skill: Skill) => skill.name) as string[]
-                setSkills(skills);
-            }
-        }
-        init()
-    }, [userProfile]);
+    const skills = useMemo(() => userProfile.skills ? userProfile.skills.split(',') : [], [userProfile]);
 
     async function updateSkill() {
         const {
             id,
-            username,
             sub,
         } = userProfile;
-        const payload = skills.map((skill) => ({
-            userid: id,
-            username,
-            usersub: sub,
-            name: skill,
-        }));
-        const result = await httpPost(`${window.location.origin}/api/skill`, payload);
+        const payload = {
+            id,
+            sub,
+            skills: userProfile.skills,
+        }
+        const result = await httpPut(`${window.location.origin}/api/user`, payload);
         setUpdated(false);
     }
 
+    function setSkills (skills: string[]) {
+        setUserProfile(((userProfile: UserInfo) => {
+            return {
+                ...userProfile,
+                skills: skills.join(','),
+            }
+        }) as UserInfo);
+    }
+
     return (
-        <section className="py-8"  id="PersonalIntroduction">
+        <section className="py-8"  id="introduction">
             <div className="grid grid-cols-6">
                 <div className="leading-8 font-medium col-start-1 col-end-5 text-xl">Skills</div>
                 <Button

@@ -2,7 +2,7 @@
 import React from "react";
 import { useEffect, useState, useRef } from 'react';
 import { httpGet } from "@/lib/api";
-import PersonalIntroduction from "@/components/home/PersonalIntroduction";
+import Profile from "@/components/home/Profile";
 import Skills from "@/components/home/Skills";
 import ProjectExp from "@/components/home/ProjectExp";
 import { UserInfo } from "@/types";
@@ -30,7 +30,7 @@ const MainContainer = () => {
   return (
     userProfile ?
     <>
-      <PersonalIntroduction userProfile={userProfile}/>
+      <Profile userProfile={userProfile}/>
       <div id="threeSence" ref={threeSenceRef} className="h-96 w-screenr"></div>
       <Skills renderDom={threeSenceRef as any} userProfile={userProfile}/>
       <ProjectExp userProfile={userProfile}/>

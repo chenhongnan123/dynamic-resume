@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { httpGet } from "@/lib/api";
 import { UserInfo } from "@/types";
-import NamePosition from "@/components/edit-profile/NamePosition";
-import PersonalItroduction from "@/components/edit-profile/PersonalItroduction";
+// import NamePosition from "@/components/edit-profile/NamePosition";
+// import PersonalItroduction from "@/components/edit-profile/PersonalItroduction";
+import Profile from "@/components/edit-profile/Profile";
 import Skills from "@/components/edit-profile/Skills";
 import ProjectExp from "@/components/edit-profile/ProjectExp";
 import { useTranslation } from 'react-i18next';
@@ -29,9 +30,10 @@ export default function EditProfile() {
       init()
     }, [userInfo]);
     return <>
-        <NamePosition userProfile={userProfile} setUserProfile={setUserProfile}/>
-        <PersonalItroduction userProfile={userProfile} setUserProfile={setUserProfile}/>
-        <Skills userProfile={userProfile} />
-        <ProjectExp userProfile={userProfile} />
+        {/* <NamePosition userProfile={userProfile} setUserProfile={setUserProfile}/>
+        <PersonalItroduction userProfile={userProfile} setUserProfile={setUserProfile}/> */}
+        <Profile userProfile={userProfile} setUserProfile={setUserProfile}/>
+        <Skills userProfile={userProfile} setUserProfile={setUserProfile}/>
+        {/* <ProjectExp userProfile={userProfile} /> */}
     </>
   }

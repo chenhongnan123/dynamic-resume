@@ -22,12 +22,14 @@ model User {
   email     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  nameCn  String?  // 中文名字
-  nameEn  String?  // 英文名字
-  positionCn  String?  // 中文职位
-  positionEn  String?  // 英文职位
-  personalIntroductionEn  String?  // 中文个人简介
-  personalIntroductionCn  String?  // 英文个人简介
+  name_en  String?  // 英文名字
+  name_zh  String?  // 中文名字
+  position_en  String?  // 英文职位
+  position_zh  String?  // 中文职位
+  introduction_en  String?  // 中文个人简介
+  introduction_zh  String?  // 英文个人简介
+  skills_en  String?  // 英文技能
+  skills_zh  String?  // 中文技能
 }
 
 model Skill {
@@ -47,15 +49,12 @@ model ProjectExp {
   usersub         String   // 用户第三方平台的id
   username         String   // 用户名称
   durationTime  String?   // Time range
-  technologyStackEn  String?   // 英文技术栈
-  technologyStackZh  String?   // 中文技术栈
-  technologyStack  String?   // 技术栈
-  companyNameEn  String?    // 英文公司名称
-  companyNameZh  String?    // 中文公司名称
-  companyName  String?    // 公司名称
-  detailsEn  String?    // 英文项目详情
-  detailsZh  String?    // 中文项目详情
-  details  String?    // 项目详情
+  technology_stack_en  String?   // 英文技术栈
+  technology_stack_zh  String?   // 中文技术栈
+  company_name_en  String?    // 英文公司名称
+  company_name_zh  String?    // 中文公司名称
+  details_en  String?    // 英文项目详情
+  details_zh  String?    // 中文项目详情
   fileName  String?    // 文件名称
   fileExtension  String?    // 文件后缀
   fileSize  Int?    // 文件大小

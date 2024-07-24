@@ -4,6 +4,16 @@ import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
 import { getCurrentUser } from "@/lib/session";
 import { UserInfo } from "@/types";
+import i18nConfig from "@/i18nConfig";
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+
+const {
+  locales,
+  defaultLocale,
+} = i18nConfig;
+
+const i18nMapList = ['name', 'position', 'introduction', 'skills'];
 
 export async function GET(req: NextRequest) {
   try {
@@ -17,7 +27,10 @@ export async function GET(req: NextRequest) {
       }
       return NextResponse.json(result);
     }
-    const lang = headers().get('Lang')
+    let lang = headers().get('Lang');
+    if (!lang || !locales.includes(lang)) {
+      lang = defaultLocale;
+    }
     const select = {
       id: true,
       username: true,
@@ -27,29 +40,21 @@ export async function GET(req: NextRequest) {
       email: true,
       createdAt: true,
       updatedAt: true,
-      nameCn: lang === 'zh',
-      nameEn: lang === 'en',
-      positionCn: lang === 'zh',
-      positionEn: lang === 'en',
-      personalIntroductionCn: lang === 'zh',
-      personalIntroductionEn: lang === 'en',
-    }
+    } as { [key: string]: boolean }
+    i18nMapList.forEach((item) => {
+      select[`${item}_${lang}`] = true
+    });
     const user = await prisma.user.findUnique({
       where: {
         username,
       },
       select,
     })
-    const payload = {...user} as UserInfo
-    if (lang === 'en') {
-      payload.name = payload.nameEn
-      payload.position = payload.positionEn
-      payload.personalIntroduction = payload.personalIntroductionEn
-    } else {
-      payload.name = payload.nameCn
-      payload.position = payload.positionCn
-      payload.personalIntroduction = payload.personalIntroductionCn
-    }
+    const payload = {...user} as { [key: string]: boolean | string }
+    i18nMapList.forEach((item) => {
+      payload[item] = payload[`${item}_${lang}`];
+      delete payload[`${item}_${lang}`];
+    });
     const result = {
       code: ResultEnum.SUCCESS,
       data: payload || {},
@@ -69,10 +74,9 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const authorization = headers().get('authorization')
+    const session = await getServerSession(authOptions);
     const lang = headers().get('Lang')
-    const userInfo = await getCurrentUser() as UserInfo
-    if (authorization !== userInfo?.jti) {
+    if (!session) {
       const result = {
         code: ResultEnum.TOKEN_OVERDUE,
         data: {},
@@ -85,19 +89,11 @@ export async function PUT(req: NextRequest) {
       ...body,
       updatedAt: new Date()
     };
-    if (lang === 'en') {
-      payload.nameEn = payload.name
-      payload.positionEn = payload.position
-      payload.personalIntroductionEn = payload.personalIntroduction
-    } else {
-      payload.nameCn = payload.name
-      payload.positionCn = payload.position
-      payload.personalIntroductionCn = payload.personalIntroduction
-    }
-    delete payload.id
-    delete payload.name
-    delete payload.position
-    delete payload.personalIntroduction
+    i18nMapList.forEach((item) => {
+      if (payload.hasOwnProperty(item)) {}
+      payload[`${item}_${lang}`] = payload[item];
+      delete payload[item];
+    });
     const user = await prisma.user.update({
       where: {
         sub: payload.sub

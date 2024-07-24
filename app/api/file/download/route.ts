@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from 'next/headers'
 import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
-import { getCurrentUser } from "@/lib/session";
 import { UserInfo, Skill } from "@/types";
 import { writeFile } from "fs/promises";
 import fs from 'fs';

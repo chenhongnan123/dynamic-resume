@@ -2,7 +2,7 @@
   "test": "Test",
   "header": {
     "title": "Dynamic resume",
-    "personalIntroduction": "Personal Introduction",
+    "introduction": "Personal Introduction",
     "skills": "Skills",
     "experience": "Experience",
     "hobby": "hobby"

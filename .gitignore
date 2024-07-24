@@ -2,3 +2,4 @@ node_modules
 .next
 postgres
 public/files
+prisma/migrations

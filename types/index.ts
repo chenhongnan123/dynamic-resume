@@ -13,15 +13,17 @@ export interface UserInfo {
   email?: string;
   createdAt?: string;
   updatedAt?: string;
-  nameEn?: string;
-  nameCn?: string;
+  name_en?: string;
+  name_zh?: string;
   position?: string,
-  positionEn?: string;
-  positionCn?: string;
-  personalIntroductionEn?: string;
-  personalIntroductionCn?: string;
-  personalIntroduction?: string;
-  jti?: string;
+  position_en?: string;
+  position_zh?: string;
+  introduction?: string;
+  introduction_en?: string;
+  introduction_zh?: string;
+  skills?: string;
+  skills_en?: string;
+  skills_zh?: string;
 }
 
 export interface Skill {
@@ -43,14 +45,14 @@ export interface ProjectExpType {
   usersub?: string;
   username?: string;
   durationTime: number[] | string;
-  technologyStackEn?: string[] | never[] | string;
-  technologyStackZh?: string[] | never[] | string;
-  technologyStack?: string[] | never[] | string;
-  companyNameEn?: string;
-  companyNameZh?: string;
-  companyName?: string;
-  detailsEn?: string;
-  detailsZh?: string;
+  technology_stack_en?: string[] | never[] | string;
+  technology_stack_zh?: string[] | never[] | string;
+  technology_stack?: string[] | never[] | string;
+  company_name_en?: string;
+  company_name_zh?: string;
+  company_name?: string;
+  details_en?: string;
+  details_zh?: string;
   details?: string;
   fileName?: string;
   fileExtension?: string;

@@ -9,6 +9,11 @@ export default function TranslationsProvider({
   locale,
   namespaces,
   resources
+}: {
+  children: React.ReactNode;
+  locale: string;
+  namespaces: string[];
+  resources?: Record<string, any>;
 }) {
   const i18n = createInstance();
 
