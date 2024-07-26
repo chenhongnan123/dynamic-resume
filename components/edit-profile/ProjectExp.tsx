@@ -80,8 +80,12 @@ const ProjectExp = ({
         };
 
         const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-            console.log(index, 'index');
             if (!e.target.files) {
+                return;
+            }
+            console.log(e.target.files, 'e.target.files');
+            if (e.target.files[0].size / 1024 / 1024 > 1) {
+                window.enqueueSnackbar('最大上传10M', { variant: "error" } );
                 return;
             }
             const payload = new FormData();
@@ -182,15 +186,17 @@ const ProjectExp = ({
             return (
                 !cellValue ?
                     <div>
-                        <Button
-                        color="primary"
-                        className="text-md"
-                        isIconOnly
-                        variant="light"
-                        size="md"
-                        >
-                            <label htmlFor={`file-${index}`} className="block text-sm font-semibold leading-6"><BsUpload className="text-xl" /></label>
-                        </Button>
+                        <Tooltip content="Upload">
+                            <Button
+                            color="primary"
+                            className="text-md"
+                            isIconOnly
+                            variant="light"
+                            size="md"
+                            >
+                                <label htmlFor={`file-${index}`} className="block text-sm font-semibold leading-6"><BsUpload className="text-xl" /></label>
+                            </Button>
+                        </Tooltip>
                         <input type="file" id={`file-${index}`} className="hidden" accept="image/*, video/*"  onChange={handleUploadFile} />
                     </div> :
                     <div>
@@ -220,7 +226,7 @@ const ProjectExp = ({
           case "actions":
             return (
                 <div className="relative flex items-center gap-2">
-                    <Tooltip content="Add">
+                    <Tooltip content="Add Item">
                         <Button
                         color="primary"
                         className="text-md"
@@ -296,19 +302,21 @@ const ProjectExp = ({
             <div className="flex ">
             <div className="leading-8 text-xl">Project Experience</div>
                 <div className="flex-1"></div>
-                <Button
-                color="primary"
-                className="text-md mr-2"
-                isIconOnly
-                variant="light"
-                size="sm"
-                onClick={() => {
-                    init();
-                    setUpdated(false);
-                }}
-                >
-                    <AiOutlineReload className="text-xl" />
-                </Button>
+                <Tooltip content="Refresh">
+                    <Button
+                    color="primary"
+                    className="text-md mr-2"
+                    isIconOnly
+                    variant="light"
+                    size="sm"
+                    onClick={() => {
+                        init();
+                        setUpdated(false);
+                    }}
+                    >
+                        <AiOutlineReload className="text-xl" />
+                    </Button>
+                </Tooltip>
                 <Button
                 color="primary"
                 className="text-md"

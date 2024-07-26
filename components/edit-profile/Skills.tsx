@@ -6,6 +6,7 @@ import { UserInfo, Skill } from "@/types";
 import { Button } from "@nextui-org/react";
 import ChipSelector from './ChipSelector';
 import { AiOutlineReload } from "react-icons/ai";
+import { Tooltip } from "@nextui-org/react";
 
 const Skills = ({
     userProfile,
@@ -51,20 +52,21 @@ const Skills = ({
             <div className="flex">
                 <div className="leading-8 font-medium text-xl">Skills</div>
                 <div className="flex-1"></div>
-                <Button
-                color="primary"
-                className="text-md mr-2"
-                isIconOnly
-                variant="light"
-                size="sm"
-                onClick={() => {
-                    init();
-                    setUpdated(false);
-                    window.enqueueSnackbar('This is a success message!', { variant: "error" });
-                }}
-                >
-                    <AiOutlineReload className="text-xl" />
-                </Button>
+                <Tooltip content="Refresh">
+                    <Button
+                    color="primary"
+                    className="text-md mr-2"
+                    isIconOnly
+                    variant="light"
+                    size="sm"
+                    onClick={() => {
+                        init();
+                        setUpdated(false);
+                    }}
+                    >
+                        <AiOutlineReload className="text-xl" />
+                    </Button>
+                </Tooltip>
                 <Button
                 color="primary"
                 className="col-start-8 col-end-8 text-md"

@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { httpPut } from "@/lib/api";
 import { UserInfo } from "@/types";
 import { AiOutlineReload } from "react-icons/ai";
+import { Tooltip } from "@nextui-org/react";
+
 
 const NamePosition = ({
     userProfile,
@@ -43,19 +45,21 @@ const NamePosition = ({
             <div className="flex">
                 <div className="leading-8 font-medium text-xl">Profile</div>
                 <div className="flex-1"></div>
-                <Button
-                color="primary"
-                className="text-md mr-2"
-                isIconOnly
-                variant="light"
-                size="sm"
-                onClick={() => {
-                    init();
-                    setUpdated(false);
-                }}
-                >
-                    <AiOutlineReload className="text-xl" />
-                </Button>
+                <Tooltip content="Refresh">
+                    <Button
+                    color="primary"
+                    className="text-md mr-2"
+                    isIconOnly
+                    variant="light"
+                    size="sm"
+                    onClick={() => {
+                        init();
+                        setUpdated(false);
+                    }}
+                    >
+                        <AiOutlineReload className="text-xl" />
+                    </Button>
+                </Tooltip>
                 <Button
                 color="primary"
                 className="col-start-8 col-end-8 text-md"

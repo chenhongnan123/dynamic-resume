@@ -2,7 +2,8 @@
 import React, { useEffect } from "react";
 import { useState, useMemo } from 'react';
 import { BsPlusCircle } from "react-icons/bs";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Button, Chip, Input} from "@nextui-org/react"
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Button, Chip, Input, Tooltip } from "@nextui-org/react"
+
 
 enum ResultEnum {
     DEFAULT = 'default',
@@ -89,20 +90,22 @@ const ChipSelector = ({
                     {chip}
                     </Chip>
                 ))}
-                <Button
-                color="primary"
-                className="text-md"
-                isIconOnly
-                variant="light"
-                size="md"
-                onPress={() => {
-                    setChip('');
-                    setIsInvalid(false);
-                    onOpen();
-                }}
-                >
-                    <BsPlusCircle className="text-xl" />
-                </Button>
+                <Tooltip content="Add skill">
+                    <Button
+                    color="primary"
+                    className="text-md"
+                    isIconOnly
+                    variant="light"
+                    size="md"
+                    onPress={() => {
+                        setChip('');
+                        setIsInvalid(false);
+                        onOpen();
+                    }}
+                    >
+                        <BsPlusCircle className="text-xl" />
+                    </Button>
+                </Tooltip>
             </div>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>

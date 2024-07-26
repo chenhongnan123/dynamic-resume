@@ -3,13 +3,12 @@ import { createRoot } from 'react-dom/client'
 import React, { useEffect, useMemo } from 'react'
 import ThreeCanvas from "./ThreeCanvas"
 
-let reactRenderDom: any = null
-
 const Skills = ({ skills, renderDom }: {
   skills: string,
   renderDom: any
 }) => {
   const skillsArr = useMemo(() => skills ? skills.toUpperCase().split(',') : [], [skills]);
+  let reactRenderDom: any = null;
 
   useEffect(() => {
     if (!renderDom?.current) {
@@ -17,7 +16,6 @@ const Skills = ({ skills, renderDom }: {
     }
     if (!reactRenderDom) {
       reactRenderDom = createRoot(renderDom.current);
-      return;
     }
     reactRenderDom.render(
       <ThreeCanvas skills={skillsArr}/>,

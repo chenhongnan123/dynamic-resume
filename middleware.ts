@@ -6,7 +6,7 @@ import i18nConfig from './i18nConfig';
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     if (pathname === '/') {
-        return NextResponse.redirect(new URL('/en/view/hongnanchen', request.url));
+        return NextResponse.redirect(new URL('/en/view/hnc996', request.url));
     }
     // return i18nRouter(request, i18nConfig);
 }

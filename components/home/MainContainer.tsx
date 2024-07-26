@@ -6,27 +6,19 @@ import Profile from "@/components/home/Profile";
 import Skills from "@/components/home/Skills";
 import ProjectExp from "@/components/home/ProjectExp";
 import { UserInfo } from "@/types";
-import { useSession, signIn } from "next-auth/react";
-import {useLocale} from 'react-aria';
+import { useParams } from "next/navigation";
 
 const MainContainer = () => {
+  const params = useParams();
   const threeSenceRef = useRef(null);
-  const { data: session } = useSession()
-  console.log(session, 'session999')
-  let test = useLocale();
-  console.log(test, 'locale, direction')
-  // if (!userInfo) {
-  //   const router = useRouter()
-  //   router.push(`/${langName}/login`)
-  // }
-  const [ userProfile, setUserProfile ] = useState<UserInfo | null>()
+  const [ userProfile, setUserProfile ] = useState<UserInfo | null>();
   useEffect(() => {
     async function init() {
-      const result = await httpGet(`${window.location.origin}/api/user?username=${session?.user?.name}`) as UserInfo
+      const result = await httpGet(`${window.location.origin}/api/user?username=${params.user}`) as UserInfo
       setUserProfile(result)
     }
     init()
-  }, [session]);
+  }, [params]);
   return (
     userProfile ?
     <>

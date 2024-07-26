@@ -17,23 +17,27 @@ const axiosInstance: MyRequestInstance = axios.create({
   timeout: ResultEnum.TIMEOUT
 });
 
+axiosInstance.interceptors.request.use((req: any) => {
+  window.showLoading();
+  return req;
+}, (error) => {
+  window.hideLoading();
+  return Promise.reject(error);
+})
+
 axiosInstance.interceptors.response.use(
   (res: AxiosResponse) => {
     const { code } = res.data as { code: number }
-
+    window.hideLoading();
     if (code === undefined || code === null) return Promise.resolve(res.data)
     // 成功
     if (code === ResultEnum.SUCCESS) {
       return Promise.resolve(res.data)
     }
-
-    // 登录过期
-    if (code === ResultEnum.TOKEN_OVERDUE) {
-      return Promise.resolve(res.data)
-    }
     return Promise.resolve(res.data)
   },
   (err: AxiosError) => {
+    window.hideLoading();
     Promise.reject(err)
   }
 )

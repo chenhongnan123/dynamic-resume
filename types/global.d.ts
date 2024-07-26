@@ -1,3 +1,5 @@
 interface Window {
-  enqueueSnackbar: (msg: string, type: any) => void
+  enqueueSnackbar: (msg: string, type: any) => void;
+  showLoading: () => void;
+  hideLoading: () => void;
 }
