@@ -1,28 +1,16 @@
 "use client"
-import * as THREE from 'three'
 import { createRoot } from 'react-dom/client'
-import React, { useRef, useState, useEffect } from 'react'
-import { UserInfo, Skill } from "@/types";
-import { httpGet, httpPost } from "@/lib/api";
+import React, { useEffect, useMemo } from 'react'
 import ThreeCanvas from "./ThreeCanvas"
 
 let reactRenderDom: any = null
 
-const Skills = ({ userProfile, renderDom }: {
-  userProfile: UserInfo,
+const Skills = ({ skills, renderDom }: {
+  skills: string,
   renderDom: any
 }) => {
-  const [skills, setSkills] = useState<(string)[]>([]);
-  useEffect(() => {
-    async function init() {
-        const result = await httpGet(`${window.location.origin}/api/skill?username=${userProfile?.username}`) as Skill[];
-        if (result) {
-            const skills = result.map((skill: Skill) => skill.name?.toUpperCase()) as string[]
-            setSkills(skills);
-        }
-    }
-    init()
-  }, [userProfile]);
+  const skillsArr = useMemo(() => skills ? skills.toUpperCase().split(',') : [], [skills]);
+
   useEffect(() => {
     if (!renderDom?.current) {
       return
@@ -32,7 +20,7 @@ const Skills = ({ userProfile, renderDom }: {
       return;
     }
     reactRenderDom.render(
-      <ThreeCanvas skills={skills}/>,
+      <ThreeCanvas skills={skillsArr}/>,
     )
   }, [renderDom, skills])
   return <></>

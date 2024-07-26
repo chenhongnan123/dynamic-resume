@@ -18,25 +18,36 @@ import { LangSwitcher } from "@/components/navbar/LangSwitcher";
 import { LoginAvatar } from '@/components/navbar/LoginAvatar'
 import { useTranslation } from 'react-i18next';
 import { useSession } from "next-auth/react";
+import { useSnackbar } from 'notistack';
 
 const links = [
   {
-    value: "introduction",
-    href: "#introduction",
+    value: "profile",
+    href: "#profile",
   },
   {
     value: "skills",
-    href: "#Skills",
+    href: "#skills",
   },
   {
     value: "experience",
-    href: "#WallOfLove",
+    href: "#experience",
   },
-  {
-    value: "hobby",
-    href: "#hobby",
-  },
+  // {
+  //   value: "hobby",
+  //   href: "#hobby",
+  // },
 ];
+
+interface CustomWindow extends Window {
+  customProp: string;
+}
+
+declare global {
+  interface Window {
+    customProp: string;
+  }
+}
 
 export const Navbar = () => {
   const { data: session } = useSession();
@@ -47,6 +58,10 @@ export const Navbar = () => {
   const isLoginPage = pathName?.includes("/login");
   const langName = i18n.language;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  if (window) {
+    window.enqueueSnackbar = enqueueSnackbar;
+  }
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">

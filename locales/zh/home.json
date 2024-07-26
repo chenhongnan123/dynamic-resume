@@ -2,10 +2,9 @@
   "test": "测试",
   "header": {
     "title": "动态简历",
-    "introduction": "个人简介",
+    "profile": "个人简介",
     "skills": "技能",
-    "experience": "经历",
-    "hobby": "爱好"
+    "experience": "经历"
   },
   "footer": {
     "poweredBy": "来自于",

@@ -40,11 +40,12 @@ export interface Skill {
 
 export interface ProjectExpType {
   id?: number;
-  eid?: number;
+  timestamp?: number;
+  order: number;
   userid?: string;
   usersub?: string;
   username?: string;
-  durationTime: number[] | string;
+  durationTime: number[] | string[] | string;
   technology_stack_en?: string[] | never[] | string;
   technology_stack_zh?: string[] | never[] | string;
   technology_stack?: string[] | never[] | string;

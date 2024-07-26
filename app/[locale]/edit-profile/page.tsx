@@ -21,19 +21,17 @@ export default function EditProfile() {
       const router = useRouter()
       router.push(`/${langName}/login`)
     }
-    const [ userProfile, setUserProfile ] = useState<UserInfo>({})
+    const [ userProfile, setUserProfile ] = useState<UserInfo>()
+    async function init() {
+      const result = await httpGet(`${window.location.origin}/api/user?username=${userInfo?.name}`) as UserInfo
+      setUserProfile(result)
+    }
     useEffect(() => {
-      async function init() {
-        const result = await httpGet(`${window.location.origin}/api/user?username=${userInfo?.name}`) as UserInfo
-        setUserProfile(result)
-      }
       init()
     }, [userInfo]);
-    return <>
-        {/* <NamePosition userProfile={userProfile} setUserProfile={setUserProfile}/>
-        <PersonalItroduction userProfile={userProfile} setUserProfile={setUserProfile}/> */}
-        <Profile userProfile={userProfile} setUserProfile={setUserProfile}/>
-        <Skills userProfile={userProfile} setUserProfile={setUserProfile}/>
-        {/* <ProjectExp userProfile={userProfile} /> */}
-    </>
+    return userProfile ? <>
+        <Profile userProfile={userProfile} setUserProfile={setUserProfile} init={init}/>
+        <Skills userProfile={userProfile} setUserProfile={setUserProfile} init={init}/>
+        <ProjectExp userProfile={userProfile} init={init}/>
+    </> : <></>
   }

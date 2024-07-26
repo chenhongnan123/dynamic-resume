@@ -5,13 +5,16 @@ import { httpPut } from "@/lib/api";
 import { UserInfo, Skill } from "@/types";
 import { Button } from "@nextui-org/react";
 import ChipSelector from './ChipSelector';
+import { AiOutlineReload } from "react-icons/ai";
 
 const Skills = ({
     userProfile,
     setUserProfile,
+    init,
   }: {
     userProfile: UserInfo,
     setUserProfile: (userProfile: UserInfo) => void
+    init: () => void;
   }) => {
     const [ isUpdated, setUpdated ] = useState(false);
 
@@ -28,7 +31,10 @@ const Skills = ({
             skills: userProfile.skills,
         }
         const result = await httpPut(`${window.location.origin}/api/user`, payload);
-        setUpdated(false);
+        if (result) {
+            setUpdated(false);
+            window.enqueueSnackbar('Successfully updated', { variant: "success" } );
+        }
     }
 
     function setSkills (skills: string[]) {
@@ -42,8 +48,23 @@ const Skills = ({
 
     return (
         <section className="py-8"  id="introduction">
-            <div className="grid grid-cols-6">
-                <div className="leading-8 font-medium col-start-1 col-end-5 text-xl">Skills</div>
+            <div className="flex">
+                <div className="leading-8 font-medium text-xl">Skills</div>
+                <div className="flex-1"></div>
+                <Button
+                color="primary"
+                className="text-md mr-2"
+                isIconOnly
+                variant="light"
+                size="sm"
+                onClick={() => {
+                    init();
+                    setUpdated(false);
+                    window.enqueueSnackbar('This is a success message!', { variant: "error" });
+                }}
+                >
+                    <AiOutlineReload className="text-xl" />
+                </Button>
                 <Button
                 color="primary"
                 className="col-start-8 col-end-8 text-md"

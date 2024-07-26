@@ -25,12 +25,13 @@ const ProjectExp = ({
 }: {
   userProfile: UserInfo,
 }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const initialItem = {
     id: Date.now(),
+    order: 1,
     durationTime: [Date.now() - 1000 * 60 * 60 * 24 * 30, Date.now()],
-    technologyStack: [],
-    companyName: "",
+    technology_stack: [],
+    company_name: "",
     details: "",
   };
 
@@ -51,8 +52,8 @@ const ProjectExp = ({
             if (result.length > 0) {
                 const list = result.map(item => ({
                     ...item,
-                    technologyStack: item.technologyStack ? (item.technologyStack as string)?.split(',') : [],
-                }));
+                    technology_stack: item.technology_stack ? (item.technology_stack as string)?.split(',') : [],
+                })).sort((a, b) => a.order - b.order);;
                 setProjectExpList(list);
                 return;
             }
@@ -68,7 +69,7 @@ const ProjectExp = ({
         <div>
           {moment(item.durationTime[0]).format('YYYY-MM-DD')} - {moment(item.durationTime[1]).format('YYYY-MM-DD')}
         </div>
-        <div>{item.companyName}</div>
+        <div>{item.company_name}</div>
       </div>
     )
   }
@@ -90,7 +91,7 @@ const ProjectExp = ({
               visible={true}
             >
               <div className="flex gap-2 flex-wrap items-center">
-                {(item.technologyStack as string[]).map((chip, index) => (
+                {(item.technology_stack as string[]).map((chip, index) => (
                     <Chip
                     key={index}
                     variant="shadow"

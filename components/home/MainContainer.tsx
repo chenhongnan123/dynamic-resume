@@ -32,7 +32,7 @@ const MainContainer = () => {
     <>
       <Profile userProfile={userProfile}/>
       <div id="threeSence" ref={threeSenceRef} className="h-96 w-screenr"></div>
-      <Skills renderDom={threeSenceRef as any} userProfile={userProfile}/>
+      <Skills renderDom={threeSenceRef as any} skills={userProfile.skills || ''}/>
       <ProjectExp userProfile={userProfile}/>
     </> : <></>
   );

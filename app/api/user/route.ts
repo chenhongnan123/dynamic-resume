@@ -7,6 +7,7 @@ import { UserInfo } from "@/types";
 import i18nConfig from "@/i18nConfig";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { BsBullseye } from "react-icons/bs";
 
 const {
   locales,
@@ -75,6 +76,8 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
+    // const test = null;
+    // test.a = 0;
     const lang = headers().get('Lang')
     if (!session) {
       const result = {
@@ -90,9 +93,10 @@ export async function PUT(req: NextRequest) {
       updatedAt: new Date()
     };
     i18nMapList.forEach((item) => {
-      if (payload.hasOwnProperty(item)) {}
-      payload[`${item}_${lang}`] = payload[item];
-      delete payload[item];
+      if (payload.hasOwnProperty(item)) {
+        payload[`${item}_${lang}`] = payload[item];
+        delete payload[item];
+      }
     });
     const user = await prisma.user.update({
       where: {
@@ -107,7 +111,7 @@ export async function PUT(req: NextRequest) {
     }
     return NextResponse.json(result)
   } catch (e) {
-    console.log(e)
+    console.log(e);
     const result = {
       code: ResultEnum.SERVER_ERROR,
       data: {},

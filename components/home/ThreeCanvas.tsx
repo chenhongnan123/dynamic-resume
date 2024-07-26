@@ -3,7 +3,6 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Text3D, Center, Preload, Lightformer, Environment, CameraControls, RenderTexture, ContactShadows, MeshTransmissionMaterial } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import Turtle from './sandboxes/Turtle'
-import { UserInfo, Skill } from "@/types";
 
 const ThreeCanvas =  memo(({ skills }: {
   skills: string[]
@@ -15,16 +14,23 @@ const ThreeCanvas =  memo(({ skills }: {
     <Canvas dpr={[1.5, 2]} camera={{ position: [0, 40, 30], fov: 45, near: 1, far: 300 }}>
       {/** The physics world */}
       {/** 物理引擎组件 */}
-      <Physics gravity={[0, -30, 0]}>
+      <Physics gravity={[0, -10, 0]}>
         {/* <Letter char="VUE" position={[-50, 0, 0]} rotation={[0, 0, 0]}> */}
           {/** The sandboxes dropped into here have no idea what's going to happen.
                For all intents and purposes they're just self-contained components.  */}
           {/** 独立的物理组件  */}
           {/* <Turtle /> */}
         {/* </Letter> */}
-        <Letter char="SKILLS" position={[2, 30, -2]} rotation={[0, 0, 0]}>
-          <Turtle />
-        </Letter>
+        <Physics gravity={[0, -100, 0]}>
+          <Letter char="SKILLS" position={[2, 30, -2]} rotation={[0, 0, 0]}>
+            <Turtle />
+          </Letter>
+          <CuboidCollider position={[0, -6, 0]}  args={[100, 1, 100]} />
+          <CuboidCollider position={[0, 0, -30]} args={[30, 100, 1]} />
+          <CuboidCollider position={[0, 0, 10]} args={[30, 100, 1]} />
+          <CuboidCollider position={[-30, 0, 0]} args={[1, 100, 30]} />
+          <CuboidCollider position={[30, 0, 0]} args={[1, 100, 30]} />
+        </Physics>
         {skills.map((skill, index) => (
             <Letter key={index} char={skill} position={[randomNumber(-10, 10), index * 10 + 100, randomNumber(-3, 3)]} rotation={[0, 0, 0]}>
               <Turtle /> 

@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from 'next/headers'
 import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
-import { getCurrentUser } from "@/lib/session";
-import { UserInfo, ProjectExpType } from "@/types";
+import { ProjectExpType } from "@/types";
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+
+const i18nMapList = ['company_name', 'technology_stack', 'details'] as (keyof ProjectExpType)[];
+
+console.log(BigInt("1721886328197"), 'BigInt')
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,38 +29,40 @@ export async function GET(req: NextRequest) {
       usersub: true,
       username: true,
       durationTime: true,
-      technologyStackZh: lang === 'cn',
-      technologyStackEn: lang === 'en',
-      companyNameZh: lang === 'cn',
-      companyNameEn: lang === 'en',
-      detailsZh: lang === 'cn',
-      detailsEn: lang === 'en',
       fileName: true,
       filePath: true,
       fileSize: true,
       fileType: true,
       createdAt: true,
       updatedAt: true,
-    }
+      timestamp: true,
+      order: true,
+    } as { [key: string]: boolean }
+    i18nMapList.forEach((item) => {
+      select[`${item}_${lang}`] = true
+    });
     const projectExpList = await prisma.projectExp.findMany({
       where: {
-        username,
-      },
+        AND: {
+          username,
+          lang,
+        }
+      } as any,
       select,
     });
     const payload = projectExpList.map((item) => ({
       ...item,
-      technologyStack: lang === 'en' ? item.technologyStackEn : item.technologyStackZh,
-      technologyStackEn: null,
-      technologyStackZh: null,
-      companyName: lang === 'en' ? item.companyNameEn : item.companyNameZh,
-      companyNameEn: null,
-      companyNameZh: null,
-      details: lang === 'en' ? item.detailsEn : item.detailsZh,
-      detailsEn: null,
-      detailsZh: null,
-      durationTime: item.durationTime ? item.durationTime.split(',').map(item => Number(item)) : [],
-    }))
+      timestamp: Number(BigInt(item.timestamp)),
+      durationTime: item.durationTime ? (item.durationTime as string).split(',').map(item => Number(item)) : [],
+    })) as ProjectExpType[]
+    i18nMapList.forEach((key) => {
+      payload.forEach((item: any) => {
+        if (item[`${key}_${lang}`]) {
+          item[key] = item[`${key}_${lang}`];
+          delete item[`${key}_${lang}`];
+        }
+      });
+    });
     const result = {
       code: ResultEnum.SUCCESS,
       data: payload || [],
@@ -75,42 +82,58 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const authorization = headers().get('authorization')
+    const session = await getServerSession(authOptions);
     const lang = headers().get('Lang')
-    const userInfo = await getCurrentUser() as UserInfo
-    if (authorization !== userInfo?.jti) {
+    if (!session) {
       const result = {
         code: ResultEnum.TOKEN_OVERDUE,
+        data: {},
         msg: ResultMessageEnum.TOKEN_OVERDUE
       }
       return NextResponse.json(result);
     }
     const body = await req.json();
-    const payload = body.map((item: ProjectExpType) => ({
-      userid: item.userid,
-      username: item.username,
-      usersub: item.usersub,
-      updatedAt: new Date(),
-      [lang === 'en' ? 'technologyStackEn' : 'technologyStackZh']: item.technologyStack,
-      [lang === 'en' ? 'companyNameEn' : 'companyNameZh']: item.companyName,
-      [lang === 'en' ? 'detailsEn' : 'detailsZh']: item.details,
-      durationTime: item.durationTime?.length > 0 ? `${item.durationTime[0]},${item.durationTime[1]}` : '',
-      fileName: item.fileName,
-      filePath: item.filePath,
-      fileSize: item.fileSize,
-      fileType: item.fileType,
-    }))
+    const payload = body.map((item: ProjectExpType) => {
+      const obj = {
+        ...item,
+        lang,
+        updatedAt: new Date(),
+        durationTime: item.durationTime?.length > 0 ? `${item.durationTime[0]},${item.durationTime[1]}` : '',
+      } as { [key: string]: any }
+      i18nMapList.forEach((key) => {
+        obj[`${key}_${lang}`] = obj[key];
+        delete obj[key];
+      });
+      return obj;
+    })
+    // i18nMapList.forEach((key) => {
+    //   payload.forEach((item: any) => {
+    //     if (item[key]) {
+    //       item[`${key}_${lang}`] = item[key];
+    //       delete item[key];
+    //     }
+    //   });
+    // });
+    // console.log(payload, 'payload');
     await prisma.projectExp.deleteMany({
       where: {
-        username: {
-          contains: payload.username,
-        },
-      },
+        username: payload.username,
+        lang,
+      } as any,
     })
     await prisma.projectExp.createMany({
       data: payload,
       // skipDuplicates: true,
     })
+    // payload.forEach(async (item: any) => {
+    //   await prisma.projectExp.upsert({
+    //     where: {
+    //       timestamp: item.timestamp,
+    //     } as any,
+    //     update: item,
+    //     create: item,
+    //   })
+    // })
     const result = {
       code: ResultEnum.SUCCESS,
       msg: ResultMessageEnum.SUCCESS

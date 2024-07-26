@@ -1,21 +1,23 @@
 "use client";
 import React from "react";
 import { Button } from "@nextui-org/react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { httpPost, httpGet } from "@/lib/api";
 import { UserInfo, ProjectExpType } from "@/types";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, getKeyValue, DateRangePicker, Textarea} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, DateRangePicker, Textarea} from "@nextui-org/react";
 import {parseDate, getLocalTimeZone} from "@internationalized/date";
-import {useDateFormatter} from "@react-aria/i18n";
 import moment from "moment";
 import ChipSelector from './ChipSelector';
 import { BsUpload, BsPlus, BsDash, BsFillXCircleFill } from "react-icons/bs";
+import { AiOutlineReload } from "react-icons/ai";
 import cloneDeep from 'lodash/cloneDeep';
 
 const ProjectExp = ({
     userProfile,
+    init,
   }: {
-    userProfile: UserInfo,
+    userProfile: UserInfo;
+    init: () => void;
   }) => {
     const [ isUpdated, setUpdated ] = useState(false)
 
@@ -27,11 +29,11 @@ const ProjectExp = ({
         },
         {
             name: "Technology stack",
-            id: "technologyStack",
+            id: "technology_stack",
         },
         {
             name: "Company",
-            id: "companyName",
+            id: "company_name",
             width: "10%",
         },
         {
@@ -51,10 +53,11 @@ const ProjectExp = ({
     ];
 
     const initialItem = {
-        id: Date.now(),
+        order: 0,
+        timestamp: Date.now(),
         durationTime: [Date.now() - 1000 * 60 * 60 * 24 * 30, Date.now()],
-        technologyStack: [],
-        companyName: "",
+        technology_stack: [],
+        company_name: "",
         details: "",
     };
 
@@ -64,8 +67,9 @@ const ProjectExp = ({
 
     const renderCell = (item: ProjectExpType, columnKey: React.Key, index: number) => {
         const handleChangeValue = (data:  ProjectExpType[keyof ProjectExpType]) => {
+            console.log(index, 'index');
             setProjectExpList(list => {
-                const newList = [...list];
+                const newList = cloneDeep(list);
                 newList[index] = {
                     ...newList[index],
                     [columnKey as keyof ProjectExpType]: data,
@@ -76,6 +80,7 @@ const ProjectExp = ({
         };
 
         const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+            console.log(index, 'index');
             if (!e.target.files) {
                 return;
             }
@@ -87,7 +92,7 @@ const ProjectExp = ({
                 }
             } as any) as ProjectExpType;
             setProjectExpList(list => {
-                const newList = [...list];
+                const newList = cloneDeep(list);
                 newList[index] = {
                     ...newList[index],
                     ...result,
@@ -95,7 +100,6 @@ const ProjectExp = ({
                 setUpdated(true);
                 return newList;
             });
-            // console.log(e.target.files[0], 'value');
         }
 
         const handleAddItem = () => {
@@ -103,7 +107,7 @@ const ProjectExp = ({
                 const newList = cloneDeep(list);
                 newList.splice(index + 1, 0, {
                     ...initialItem,
-                    id: Date.now(),
+                    timestamp: Date.now(),
                 })
                 setUpdated(true);
                 return newList;
@@ -135,7 +139,7 @@ const ProjectExp = ({
                             const start = data.start.toDate(getLocalTimeZone()).getTime();
                             const end = data.end.toDate(getLocalTimeZone()).getTime();
                             setProjectExpList(list => {
-                                const newList = [...list];
+                                const newList = cloneDeep(list);
                                 newList[index] = {
                                     ...newList[index],
                                     [columnKey]: [start, end],
@@ -147,7 +151,7 @@ const ProjectExp = ({
                     />
                 </div>
             );
-          case "technologyStack":
+          case "technology_stack":
             return (
                 <ChipSelector
                 chips={cellValue as string[]}
@@ -156,7 +160,7 @@ const ProjectExp = ({
                 size="sm"
                 />
             );
-          case "companyName":
+          case "company_name":
             return (
                 <Textarea
                 isRequired
@@ -185,9 +189,9 @@ const ProjectExp = ({
                         variant="light"
                         size="md"
                         >
-                            <label htmlFor="test" className="block text-sm font-semibold leading-6"><BsUpload className="text-xl" /></label>
+                            <label htmlFor={`file-${index}`} className="block text-sm font-semibold leading-6"><BsUpload className="text-xl" /></label>
                         </Button>
-                        <input type="file" id="test" className="hidden" accept="image/*, video/*"  onChange={handleUploadFile} />
+                        <input type="file" id={`file-${index}`} className="hidden" accept="image/*, video/*"  onChange={handleUploadFile} />
                     </div> :
                     <div>
                         <a href={cellValue as string} className="underline text-blue-500 hover:text-blue-700" target="_blank">{cellValue}</a>
@@ -199,7 +203,7 @@ const ProjectExp = ({
                         size="md"
                         onClick={() => {
                             setProjectExpList(list => {
-                                const newList = [...list];
+                                const newList = cloneDeep(list);
                                 newList[index] = {
                                     ...newList[index],
                                     [columnKey as keyof ProjectExpType]: '',
@@ -255,8 +259,8 @@ const ProjectExp = ({
                 if (result.length > 0) {
                     const list = result.map(item => ({
                         ...item,
-                        technologyStack: item.technologyStack ? (item.technologyStack as string)?.split(',') : [],
-                    }));
+                        technology_stack: item.technology_stack ? (item.technology_stack as string)?.split(',') : [],
+                    })).sort((a, b) => a.order - b.order);
                     setProjectExpList(list);
                     return;
                 }
@@ -272,24 +276,42 @@ const ProjectExp = ({
             username,
             sub,
         } = userProfile;
-        const payload = projectExpList.map((item) => ({
+        const payload = projectExpList.map((item, index) => ({
             ...item,
             userid: id,
             username,
             usersub: sub,
-            technologyStack: (item.technologyStack as string[])?.join(),
+            order: index + 1,
+            technology_stack: (item.technology_stack as string[])?.join(),
         }));
         const result = await httpPost(`${window.location.origin}/api/projectexp`, payload)
-        setUpdated(false)
+        if (result) {
+            setUpdated(false);
+            window.enqueueSnackbar('Successfully updated', { variant: "success" } );
+        }
     }
 
     return (
-        <section className="py-8"  id="ProjectExp">
-            <div className="grid grid-cols-6">
-            <div className="leading-8 font-medium col-start-1 col-end-5 text-xl">Project Experience</div>
+        <section className="py-8"  id="experience">
+            <div className="flex ">
+            <div className="leading-8 text-xl">Project Experience</div>
+                <div className="flex-1"></div>
                 <Button
                 color="primary"
-                className="col-start-8 col-end-8 text-md"
+                className="text-md mr-2"
+                isIconOnly
+                variant="light"
+                size="sm"
+                onClick={() => {
+                    init();
+                    setUpdated(false);
+                }}
+                >
+                    <AiOutlineReload className="text-xl" />
+                </Button>
+                <Button
+                color="primary"
+                className="text-md"
                 size="sm"
                 isDisabled={!isUpdated}
                 onClick={updateintroduction}
@@ -307,8 +329,8 @@ const ProjectExp = ({
                 </TableHeader>
                 <TableBody items={projectExpList}>
                     {(item) => (
-                    <TableRow key={item.id}>
-                        {(columnKey) => <TableCell>{renderCell(item, columnKey, projectExpList.findIndex(i => i.id === item.id))}</TableCell>}
+                    <TableRow key={item.order}>
+                        {(columnKey) => <TableCell>{renderCell(item, columnKey, projectExpList.findIndex(i => i.timestamp === item.timestamp))}</TableCell>}
                     </TableRow>
                     )}
                 </TableBody>

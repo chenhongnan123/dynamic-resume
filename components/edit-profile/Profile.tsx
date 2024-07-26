@@ -4,17 +4,18 @@ import { Button } from "@nextui-org/react";
 import { useState } from 'react';
 import { httpPut } from "@/lib/api";
 import { UserInfo } from "@/types";
-
+import { AiOutlineReload } from "react-icons/ai";
 
 const NamePosition = ({
     userProfile,
-    setUserProfile
+    setUserProfile,
+    init,
   }: {
-    userProfile: UserInfo,
-    setUserProfile: (userProfile: UserInfo) => void
+    userProfile: UserInfo;
+    setUserProfile: (userProfile: UserInfo) => void;
+    init: () => void;
   }) => {
-    const [ isUpdated, setUsUpdated ] = useState(false)
-
+    const [ isUpdated, setUpdated ] = useState(false);
     async function updateintroduction() {
         const {
             id,
@@ -31,22 +32,39 @@ const NamePosition = ({
             introduction,
         }
         const result = await httpPut(`${window.location.origin}/api/user`, payload)
-        setUsUpdated(false)
+        if (result) {
+            setUpdated(false);
+            window.enqueueSnackbar('Successfully updated', { variant: "success" });
+        }
     }
     const inputStyles = 'block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
     return (
         <section className="py-8"  id="introduction">
-            <div className="grid grid-cols-6">
-            <div className="leading-8 font-medium col-start-1 col-end-5 text-xl">Profile</div>
-            <Button
-            color="primary"
-            className="col-start-8 col-end-8 text-md"
-            size="sm"
-            isDisabled={!isUpdated}
-            onClick={updateintroduction}
-            >
-                Save
-            </Button>
+            <div className="flex">
+                <div className="leading-8 font-medium text-xl">Profile</div>
+                <div className="flex-1"></div>
+                <Button
+                color="primary"
+                className="text-md mr-2"
+                isIconOnly
+                variant="light"
+                size="sm"
+                onClick={() => {
+                    init();
+                    setUpdated(false);
+                }}
+                >
+                    <AiOutlineReload className="text-xl" />
+                </Button>
+                <Button
+                color="primary"
+                className="col-start-8 col-end-8 text-md"
+                size="sm"
+                isDisabled={!isUpdated}
+                onClick={updateintroduction}
+                >
+                    Save
+                </Button>
             </div>
             <div className="mt-2.5 grid md:grid-cols-1 md:grid-cols-2 md:gap-4">
                 <div>
@@ -58,7 +76,7 @@ const NamePosition = ({
                     className={inputStyles}
                     value={userProfile.name || ''}
                     onChange={(e) => {
-                        setUsUpdated(true)
+                        setUpdated(true)
                         setUserProfile({
                             ...userProfile,
                             name: e.target.value
@@ -75,7 +93,7 @@ const NamePosition = ({
                     className={inputStyles}
                     value={userProfile.position || ''}
                     onChange={(e) => {
-                        setUsUpdated(true)
+                        setUpdated(true)
                         setUserProfile({
                             ...userProfile,
                             position: e.target.value
@@ -92,7 +110,7 @@ const NamePosition = ({
                     className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={userProfile?.introduction}
                     onChange={(e) => {
-                        setUsUpdated(true)
+                        setUpdated(true)
                         setUserProfile({
                             ...userProfile,
                             introduction: e.target.value

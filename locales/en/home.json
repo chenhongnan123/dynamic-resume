@@ -2,10 +2,9 @@
   "test": "Test",
   "header": {
     "title": "Dynamic resume",
-    "introduction": "Personal Introduction",
+    "profile": "Profile",
     "skills": "Skills",
-    "experience": "Experience",
-    "hobby": "hobby"
+    "experience": "Experience"
   },
   "footer": {
     "poweredBy": "Powered By",

@@ -2,19 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from 'next/headers'
 import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
-import { getCurrentUser } from "@/lib/session";
-import { UserInfo } from "@/types";
 import { writeFile } from "fs/promises";
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 
 export async function POST(req: NextRequest) {
   try {
-    const authorization = headers().get('authorization')
+    const session = await getServerSession(authOptions);
     const lang = headers().get('Lang')
-    const userInfo = await getCurrentUser() as UserInfo
-    if (authorization !== userInfo?.jti) {
+    if (!session) {
       const result = {
         code: ResultEnum.TOKEN_OVERDUE,
+        data: {},
         msg: ResultMessageEnum.TOKEN_OVERDUE
       }
       return NextResponse.json(result);

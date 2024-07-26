@@ -15,8 +15,10 @@ export const get = async <T = any> (url: string, params?: string, payload?: obje
     if (code === 200) {
       return data
     }
+    window.enqueueSnackbar(JSON.stringify(msg), { variant: "error" });
     return {};
   } catch (error) {
+    window.enqueueSnackbar(JSON.stringify(error), { variant: "error" });
     return [];
   }
 }
@@ -34,28 +36,10 @@ export const post = async <T = any>(url: string, payload?: object, headersType?:
     if (code === 200) {
       return data || true
     }
+    window.enqueueSnackbar(JSON.stringify(msg), { variant: "error" });
     return false
   } catch (error) {
-    return false
-  }
-}
-
-export const postExport = async <T = any>(url: string, payload?: object, headersType?: string) => {
-  try {
-    const data = await axiosInstance<T>({
-      url: url,
-      method: RequestHttpEnum.POST,
-      data: payload,
-      responseType: 'blob',
-      headers: {
-        'Content-Type': headersType || ContentTypeEnum.JSON
-      }
-    })
-    if (data) {
-      return data;
-    }
-    return false
-  } catch (error) {
+    window.enqueueSnackbar(JSON.stringify(error), { variant: "error" });
     return false
   }
 }
@@ -73,15 +57,17 @@ export const put = async <T = any>(url: string, payload?: object, headersType?: 
     if (code === 200) {
       return true
     }
+    window.enqueueSnackbar(JSON.stringify(msg), { variant: "error" });
     return false
   } catch (error) {
+    window.enqueueSnackbar(JSON.stringify(error), { variant: "error" });
     return false
   }
 }
 
 export const del = async <T = any>(url: string, params?: object) => {
   try {
-    const { code } = await axiosInstance<T>({
+    const { code, msg } = await axiosInstance<T>({
       url: url,
       method: RequestHttpEnum.DELETE,
       params
@@ -89,8 +75,10 @@ export const del = async <T = any>(url: string, params?: object) => {
     if (code === 200) {
       return true
     }
+    window.enqueueSnackbar(JSON.stringify(msg), { variant: "error" });
     return false
   } catch (error) {
+    window.enqueueSnackbar(JSON.stringify(error), { variant: "error" });
     return false
   }
 }

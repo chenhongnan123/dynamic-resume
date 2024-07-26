@@ -1,4 +1,4 @@
-import { get, post, put, del, postExport } from './http'
+import { get, post, put, del } from './http'
 import { ModuleTypeEnum, ContentTypeEnum } from '@/enums/httpEnum'
 
 export const httpGet = async <T>(url: string, params?: string, data?: object) => {
@@ -34,15 +34,5 @@ export const httpDelete = async <T>(url: string, params: object) => {
     return res
   } catch (err) {
     console.log(err, 'Http error');
-  }
-}
-
-
-export const dataPostExport = async <T>(url: string, data?: object, headersType?: string) => {
-  try {
-    const res = await <T>postExport(`${ModuleTypeEnum.DATAAPI}${url}`, data, headersType);
-    return res;
-  } catch (error) {
-    console.log(error, 'Http error')
   }
 }

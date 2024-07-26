@@ -45,6 +45,9 @@ model Skill {
 
 model ProjectExp {
   id        Int      @id @default(autoincrement())
+  timestamp BigInt?  @unique // 唯一时间戳区分
+  lang      String?   // 语言
+  order Int?  // 顺序
   userid         Int   // 用户Id
   usersub         String   // 用户第三方平台的id
   username         String   // 用户名称
