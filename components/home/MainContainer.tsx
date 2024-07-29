@@ -18,12 +18,12 @@ const MainContainer = () => {
       setUserProfile(result)
     }
     init()
-  }, [params]);
+  }, [params.user]);
   return (
     userProfile ?
     <>
       <Profile userProfile={userProfile}/>
-      <div id="threeSence" ref={threeSenceRef} className="h-96 w-screenr"></div>
+      <div id="skills" ref={threeSenceRef} className="h-96 w-screenr"></div>
       <Skills renderDom={threeSenceRef as any} skills={userProfile.skills || ''}/>
       <ProjectExp userProfile={userProfile}/>
     </> : <></>

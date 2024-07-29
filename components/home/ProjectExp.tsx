@@ -76,7 +76,8 @@ const ProjectExp = ({
   const isDark = theme === 'dark';
   const showdowColor = isDark ? '0 0 0 4px #fff, inset 0 2px #00000014, 0 3px 0 4px #0000000d' : '0 0 0 4px #7bd964, inset 0 2px #00000014, 0 3px 0 4px #0000000d';
   return (
-      <VerticalTimeline lineColor={isDark ? '#fff' : '#7bd964'}>
+    <div id="experience">
+      <VerticalTimeline lineColor={isDark ? '#fff' : '#7bd964'} >
         {
           projectExpList.map((item) => (
             <VerticalTimelineElement
@@ -111,6 +112,7 @@ const ProjectExp = ({
           ))
         }
       </VerticalTimeline>
+    </div>
   );
 };
 

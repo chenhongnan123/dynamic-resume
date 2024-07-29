@@ -2,11 +2,11 @@
 import React from "react";
 import { Button } from "@nextui-org/react";
 import { useState } from 'react';
-import { httpPut } from "@/lib/api";
-import { UserInfo } from "@/types";
+import { httpPut, httpPost } from "@/lib/api";
+import { UserInfo, File } from "@/types";
 import { AiOutlineReload } from "react-icons/ai";
 import { Tooltip } from "@nextui-org/react";
-
+import { BsUpload, BsFillXCircleFill } from "react-icons/bs";
 
 const NamePosition = ({
     userProfile,
@@ -25,6 +25,9 @@ const NamePosition = ({
             name,
             position,
             introduction,
+            hireLink,
+            fileName,
+            filePath,
         } = userProfile;
         const payload = {
             id,
@@ -32,6 +35,9 @@ const NamePosition = ({
             name,
             position,
             introduction,
+            hireLink,
+            fileName,
+            filePath,
         }
         const result = await httpPut(`${window.location.origin}/api/user`, payload)
         if (result) {
@@ -39,9 +45,34 @@ const NamePosition = ({
             window.enqueueSnackbar('Successfully updated', { variant: "success" });
         }
     }
+
+    const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) {
+            return;
+        }
+        console.log(e.target.files, 'e.target.files');
+        if (e.target.files[0].size / 1024 / 1024 > 10) {
+            window.enqueueSnackbar('最大上传10M', { variant: "error" } );
+            return;
+        }
+        const payload = new FormData();
+        payload.append('file', e.target.files[0]);
+        const result = await httpPost(`${window.location.origin}/api/file/upload`, payload, {
+            headers: {
+                "Content-Type": "multipart/form-data; boundary=----"
+            }
+        } as any) as File;
+        setUserProfile({
+            ...userProfile,
+            fileName: result.fileName,
+            filePath: result.filePath,
+        })
+        setUpdated(true)
+    }
+
     const inputStyles = 'block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
     return (
-        <section className="py-8"  id="introduction">
+        <section className="py-8"  id="profile">
             <div className="flex">
                 <div className="leading-8 font-medium text-xl">Profile</div>
                 <div className="flex-1"></div>
@@ -92,8 +123,8 @@ const NamePosition = ({
                     <label htmlFor="position" className="block text-sm font-semibold leading-6">Position</label>
                     <input
                     type="text"
-                    name="name"
-                    id="name"
+                    name="position"
+                    id="position"
                     className={inputStyles}
                     value={userProfile.position || ''}
                     onChange={(e) => {
@@ -112,7 +143,7 @@ const NamePosition = ({
                     id="introduction"
                     rows={4}
                     className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    value={userProfile?.introduction}
+                    value={userProfile.introduction || ""}
                     onChange={(e) => {
                         setUpdated(true)
                         setUserProfile({
@@ -122,6 +153,63 @@ const NamePosition = ({
                     }}
                     >
                     </textarea>
+                </div>
+                <div className="mt-2.5 md:mt-0 ">
+                    <label htmlFor="hireLink" className="block text-sm font-semibold leading-6">Hire link</label>
+                    <input
+                    type="text"
+                    name="hireLink"
+                    id="hireLink"
+                    className={inputStyles}
+                    value={userProfile.hireLink || ''}
+                    onChange={(e) => {
+                        setUserProfile({
+                            ...userProfile,
+                            hireLink: e.target.value
+                        })
+                        setUpdated(true)
+                    }}
+                    />
+                </div>
+                <div className="mt-2.5 md:mt-0 ">
+                    {
+                        !userProfile.filePath ?
+                        <div className="mt-6">
+                            <Tooltip content="Upload">
+                                <Button
+                                color="primary"
+                                className="text-md w-full"
+                                size="md"
+                                >
+                                    <label htmlFor="profileFile" className="w-full block text-sm font-semibold leading-6 flex justify-center gap-2">
+                                        <BsUpload className="text-xl" />
+                                        <span>Upload word/pdf file</span>
+                                    </label>
+                                </Button>
+                            </Tooltip>
+                            <input type="file" id="profileFile" className="hidden" accept=".doc,.docx,.pdf"  onChange={handleUploadFile} />
+                        </div> :
+                        <div className="mt-6 text-center">
+                            <a href={userProfile.filePath} className="underline text-blue-500 hover:text-blue-700" target="_blank">{userProfile.fileName}</a>
+                            <Button
+                            color="danger"
+                            className="text-md"
+                            isIconOnly
+                            variant="light"
+                            size="md"
+                            onClick={() => {
+                                setUserProfile({
+                                    ...userProfile,
+                                    fileName: "",
+                                    filePath: "",
+                                })
+                                setUpdated(true)
+                            }}
+                            >
+                                <BsFillXCircleFill className="text-xl" />
+                            </Button>
+                        </div>
+                    }
                 </div>
             </div>
             

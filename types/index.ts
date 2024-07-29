@@ -24,18 +24,9 @@ export interface UserInfo {
   skills?: string;
   skills_en?: string;
   skills_zh?: string;
-}
-
-export interface Skill {
-  id?: number;
-  userid?: string;
-  usersub?: string;
-  username?: string;
-  name?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  nameEn?: string;
-  nameCn?: string;
+  hireLink?: string;
+  fileName?: string;
+  filePath?: string;
 }
 
 export interface ProjectExpType {
@@ -55,6 +46,16 @@ export interface ProjectExpType {
   details_en?: string;
   details_zh?: string;
   details?: string;
+  fileName?: string;
+  fileExtension?: string;
+  fileSize?: string;
+  filePath?: string;
+  fileType?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface File {
   fileName?: string;
   fileExtension?: string;
   fileSize?: string;

@@ -10,7 +10,7 @@ import { Link } from "@nextui-org/link";
 import NextLink from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineEye } from "react-icons/ai";
 import { LiaAddressCard } from "react-icons/lia";
 import { useState } from 'react';
 import { ThemeSwitch } from "@/components/navbar/theme-switch";
@@ -33,21 +33,7 @@ const links = [
     value: "experience",
     href: "#experience",
   },
-  // {
-  //   value: "hobby",
-  //   href: "#hobby",
-  // },
 ];
-
-interface CustomWindow extends Window {
-  customProp: string;
-}
-
-declare global {
-  interface Window {
-    customProp: string;
-  }
-}
 
 export const Navbar = () => {
   const { data: session } = useSession();
@@ -56,6 +42,7 @@ export const Navbar = () => {
   const liStyles = "flex flex-col gap-2 text-sm font-medium text-inherit";
   const pathName = usePathname();
   const isLoginPage = pathName?.includes("/login");
+  const isEditPage = pathName?.includes("/edit-profile");
   const langName = i18n.language;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -77,6 +64,17 @@ export const Navbar = () => {
             {!isLoginPage && <p className="hidden md:block font-bold text-inherit">{t('header.title')}</p>}
           </NextLink>
         </NavbarBrand>
+        {isEditPage && <NavbarBrand as="li" className="gap-3 max-w-fit">
+          <NextLink className="flex justify-start items-center gap-1" href={`/${langName}/view/${userInfo?.name}`}>
+            <Button
+              isIconOnly
+              variant="light"
+              color="primary"
+            >
+              <AiOutlineEye className="text-4xl"/>
+            </Button>
+          </NextLink>
+        </NavbarBrand>}
       </NavbarContent>
       
       {!isLoginPage && 
@@ -136,10 +134,20 @@ export const Navbar = () => {
                         aria-label="Landing Page Boilerplate"
                         title="Landing Page Boilerplate"
                         className="inline-flex items-center text-inherit"
+                        onClick={() => setIsMenuOpen(false)}
                       >
                         <LiaAddressCard className="text-4xl"/>
                         <p className="font-bold text-inherit">Dynamic resume</p>
                       </Link>
+                      {isEditPage && <Link
+                        href={`/${langName}/view/${userInfo?.name}`}
+                        aria-label="Landing Page Boilerplate"
+                        title="Landing Page Boilerplate"
+                        className="inline-flex items-center text-inherit"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <LiaAddressCard className="text-4xl"/>
+                      </Link>}
                     </div>
                     <div>
                       <button
@@ -161,6 +169,7 @@ export const Navbar = () => {
                           aria-label={t(`header.${link.value}`)}
                           title={t(`header.${link.value}`)}
                           className={liStyles}
+                          onClick={() => {setIsMenuOpen(false)}}
                         >
                           {t(`header.${link.value}`)}
                         </Link>
@@ -169,7 +178,6 @@ export const Navbar = () => {
                     </ul>
                   </nav>
                   <div className="pt-2">
-                    <div className="py-2 font-bold">Links</div>
                     <div className="flex items-center gap-x-5 justify-between">
                       {/* <ul className="items-center gap-6 flex">
                         {iconLinks.map((link) => (
@@ -189,11 +197,12 @@ export const Navbar = () => {
                       </ul> */}
                       {/* <div className="flex items-center justify-end gap-x-5 w-1/2"> */}
                         <div className="flex max-w-[24px] flex-col items-center justify-center text-inherit">
-                          <ThemeSwitch />
+                          <ThemeSwitch closeMenu={() => {setIsMenuOpen(false)}}/>
                         </div>
-                        <LangSwitcher></LangSwitcher>
+                        <div className="flex-1"></div>
+                        <LangSwitcher />
                         <div>
-                          <LoginAvatar userInfo={userInfo} langName={langName} liStyles={liStyles}/>
+                          <LoginAvatar userInfo={userInfo} langName={langName} liStyles={liStyles} closeMenu={() => {setIsMenuOpen(false)}}/>
                         </div>
                       {/* </div> */}
                     </div>

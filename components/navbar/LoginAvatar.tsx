@@ -1,10 +1,12 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, User } from "@nextui-org/react";
 import { Link } from "@nextui-org/link";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
-export const LoginAvatar = ({ userInfo , langName, liStyles }: any) => {
+export const LoginAvatar = ({ userInfo , langName, liStyles, closeMenu, }: any) => {
   const router = useRouter();
+  const pathName = usePathname();
+  const isEditPage = pathName?.includes("/edit-profile");
   return (
     <>
         {userInfo
@@ -24,10 +26,12 @@ export const LoginAvatar = ({ userInfo , langName, liStyles }: any) => {
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
                         <DropdownItem
+                        isDisabled={isEditPage}
                         key="edit"
                         color="primary"
                         onClick={() => {
-                            router.push(`/${langName}/edit-profile`)
+                            router.push(`/${langName}/edit-profile`);
+                            closeMenu && closeMenu();
                         }}
                         >
                             Edit Profile

@@ -12,6 +12,7 @@ export default function Login() {
     };
 
     return <section className="h-96 flex flex-col justify-center items-center">
+      <div className="text-2xl font-bold my-4">Login to dynamic resume</div>
       <Button
       color="default"
       startContent={<BsGithub/>}
@@ -20,12 +21,12 @@ export default function Login() {
       >
         Continue with GitHub
       </Button>
-      <Button
+      {/* <Button
       color="primary"
       startContent={<BsGithub/>}
       className="w-full md:w-96 text-xl mt-4"
       >
         Continue with GitHub
-      </Button>
+      </Button> */}
     </section>
   }

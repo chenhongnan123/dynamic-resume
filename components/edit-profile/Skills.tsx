@@ -2,7 +2,7 @@
 import React from "react";
 import { useState, useMemo } from 'react';
 import { httpPut } from "@/lib/api";
-import { UserInfo, Skill } from "@/types";
+import { UserInfo } from "@/types";
 import { Button } from "@nextui-org/react";
 import ChipSelector from './ChipSelector';
 import { AiOutlineReload } from "react-icons/ai";
@@ -48,7 +48,7 @@ const Skills = ({
     }
 
     return (
-        <section className="py-8"  id="introduction">
+        <section className="py-8"  id="skills">
             <div className="flex">
                 <div className="leading-8 font-medium text-xl">Skills</div>
                 <div className="flex-1"></div>

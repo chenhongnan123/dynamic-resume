@@ -12,17 +12,20 @@ import { SunFilledIcon, MoonFilledIcon } from "@/components/icons";
 export interface ThemeSwitchProps {
   className?: string;
   classNames?: SwitchProps["classNames"];
+  closeMenu?: () => void;
 }
 
 export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   className,
   classNames,
+  closeMenu,
 }) => {
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
 
   const onChange = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
+    closeMenu && closeMenu();
   };
 
   const {

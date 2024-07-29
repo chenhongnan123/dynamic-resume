@@ -7,7 +7,8 @@ import { Navbar } from "@/components/navbar";
 
 // import { getCurrentUser } from "@/lib/session";
 import SessionProvider from "@/components/SessionProvider";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 import initTranslations from '../i18n';
 import TranslationsProvider from '@/components/TranslationsProvider';
@@ -41,7 +42,7 @@ export default async function Home({
 }) {
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
   // const userInfo = await getCurrentUser();
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions) as Session | null | undefined;
   // const session = await getServerSession();
   // console.log(resources, 'resources')
   return (

@@ -30,17 +30,9 @@ model User {
   introduction_zh  String?  // 英文个人简介
   skills_en  String?  // 英文技能
   skills_zh  String?  // 中文技能
-}
-
-model Skill {
-  id        Int      @id @default(autoincrement())
-  userid         Int   // 用户Id
-  usersub         String   // 用户第三方平台的id
-  username         String   // 用户名称
-  nameCn  String?  @unique  // 中文技能名称
-  nameEn  String?  @unique  // 英文技能名称
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  hireLink   String?   // 招聘链接
+  fileName   String?   // 个人简介文件名称
+  filePath   String?   // 个人简介文件下载地址
 }
 
 model ProjectExp {

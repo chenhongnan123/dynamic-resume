@@ -67,7 +67,6 @@ const ProjectExp = ({
 
     const renderCell = (item: ProjectExpType, columnKey: React.Key, index: number) => {
         const handleChangeValue = (data:  ProjectExpType[keyof ProjectExpType]) => {
-            console.log(index, 'index');
             setProjectExpList(list => {
                 const newList = cloneDeep(list);
                 newList[index] = {
@@ -84,7 +83,7 @@ const ProjectExp = ({
                 return;
             }
             console.log(e.target.files, 'e.target.files');
-            if (e.target.files[0].size / 1024 / 1024 > 1) {
+            if (e.target.files[0].size / 1024 / 1024 > 10) {
                 window.enqueueSnackbar('最大上传10M', { variant: "error" } );
                 return;
             }
@@ -200,7 +199,7 @@ const ProjectExp = ({
                         <input type="file" id={`file-${index}`} className="hidden" accept="image/*, video/*"  onChange={handleUploadFile} />
                     </div> :
                     <div>
-                        <a href={cellValue as string} className="underline text-blue-500 hover:text-blue-700" target="_blank">{cellValue}</a>
+                        <a href={cellValue as string} className="underline text-blue-500 hover:text-blue-700" target="_blank">{item.fileName}</a>
                         <Button
                         color="danger"
                         className="text-md"
@@ -274,7 +273,7 @@ const ProjectExp = ({
             }
         }
         init()
-    }, [userProfile]);
+    }, []);
 
     async function updateintroduction() {
         const {

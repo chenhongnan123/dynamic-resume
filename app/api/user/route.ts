@@ -2,12 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from 'next/headers'
 import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
-import { getCurrentUser } from "@/lib/session";
-import { UserInfo } from "@/types";
 import i18nConfig from "@/i18nConfig";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import { BsBullseye } from "react-icons/bs";
 
 const {
   locales,
@@ -39,6 +36,9 @@ export async function GET(req: NextRequest) {
       platform: true,
       avatar: true,
       email: true,
+      hireLink: true,
+      fileName: true,
+      filePath: true,
       createdAt: true,
       updatedAt: true,
     } as { [key: string]: boolean }
