@@ -4,13 +4,12 @@ import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
 import { writeFile } from "fs/promises";
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth";
 
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const lang = headers().get('Lang')
     if (!session) {
       const result = {
         code: ResultEnum.TOKEN_OVERDUE,

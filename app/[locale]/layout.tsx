@@ -5,10 +5,9 @@ import { Providers } from "../providers";
 import { siteConfig } from "@/config/site";
 import { Navbar } from "@/components/navbar";
 
-// import { getCurrentUser } from "@/lib/session";
 import SessionProvider from "@/components/SessionProvider";
 import { getServerSession, Session } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth";
 
 import initTranslations from '../i18n';
 import TranslationsProvider from '@/components/TranslationsProvider';

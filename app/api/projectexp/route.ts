@@ -4,11 +4,9 @@ import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
 import { ProjectExpType } from "@/types";
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth";
 
 const i18nMapList = ['company_name', 'technology_stack', 'details'] as (keyof ProjectExpType)[];
-
-console.log(BigInt("1721886328197"), 'BigInt')
 
 export async function GET(req: NextRequest) {
   try {
@@ -50,7 +48,7 @@ export async function GET(req: NextRequest) {
       } as any,
       select,
     });
-    const payload = projectExpList.map((item) => ({
+    const payload = projectExpList.map((item: any) => ({
       ...item,
       timestamp: Number(BigInt(item.timestamp)),
       durationTime: item.durationTime ? (item.durationTime as string).split(',').map(item => Number(item)) : [],

@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { ResultEnum, ResultMessageEnum } from '@/enums/httpEnum'
 import i18nConfig from "@/i18nConfig";
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth";
 
 const {
   locales,
