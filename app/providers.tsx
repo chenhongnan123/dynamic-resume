@@ -10,8 +10,6 @@ import axiosInstance from "@/lib/api/axios";
 import { useTranslation } from 'react-i18next';
 import { SnackbarProvider } from 'notistack';
 import { Spinner, Modal, useDisclosure, Button, ModalContent, ModalBody } from "@nextui-org/react";
-import { useEffect } from "react";
-
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;

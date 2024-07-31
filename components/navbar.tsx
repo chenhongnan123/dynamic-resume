@@ -12,13 +12,15 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import { AiOutlineMenu, AiOutlineClose, AiOutlineEye } from "react-icons/ai";
 import { LiaAddressCard } from "react-icons/lia";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeSwitch } from "@/components/navbar/theme-switch";
 import { LangSwitcher } from "@/components/navbar/LangSwitcher";
 import { LoginAvatar } from '@/components/navbar/LoginAvatar'
 import { useTranslation } from 'react-i18next';
 import { useSession } from "next-auth/react";
 import { useSnackbar } from 'notistack';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
 const links = [
   {
@@ -35,6 +37,9 @@ const links = [
   },
 ];
 
+let homeViewFlag = localStorage.getItem('homeViewFlag');
+let editPageViewFlag = localStorage.getItem('editPageViewFlag');
+
 export const Navbar = () => {
   const { data: session } = useSession();
   const userInfo = session?.user;
@@ -50,6 +55,65 @@ export const Navbar = () => {
     window.enqueueSnackbar = enqueueSnackbar;
   }
 
+    
+  const homeDriverConfig: any = {
+    steps: [
+      {
+        element: '#login-link',
+        popover: {
+          title: 'Generate your own profile',
+          description: 'Login to create your own profile and start building your portfolio',
+          side: "left",
+          align: 'start',
+        },
+      },
+    ]
+  };
+
+  const editDriverConfig: any = {
+    steps: [
+      {
+        element: '.home-button',
+        popover: {
+          title: 'Back to home',
+          description: 'Back to the home page to view exmple profile',
+          side: "left",
+          align: 'start',
+        },
+      },
+      {
+        element: '.preview-button',
+        popover: {
+          title: 'Preview your profile',
+          description: 'Preview your profile to see how it looks',
+          side: "left",
+          align: 'start',
+        },
+      },
+    ]
+  };
+
+  useEffect(() => {
+    function initDriver() {
+      let homeDriver = null as any;
+      let editPageDriver = null;
+      if (!isEditPage && !homeViewFlag) {
+          homeDriver = driver(homeDriverConfig);
+          setTimeout(() => {
+            homeDriver.drive();
+            localStorage.setItem('homeViewFlag', 'true');
+          }, 10000);
+          return;
+      } 
+      if (isEditPage && !editPageViewFlag) {
+        editPageDriver = driver(editDriverConfig);
+        editPageDriver.drive();
+        localStorage.setItem('editPageViewFlag', 'true');
+      }
+    }
+    initDriver();
+  }, [isEditPage]);
+
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -58,6 +122,7 @@ export const Navbar = () => {
             <Button
               isIconOnly
               variant="light"
+              className="home-button"
             >
               <LiaAddressCard className="text-4xl"/>
             </Button>
@@ -70,6 +135,7 @@ export const Navbar = () => {
               isIconOnly
               variant="light"
               color="primary"
+              className="preview-button"
             >
               <AiOutlineEye className="text-4xl"/>
             </Button>

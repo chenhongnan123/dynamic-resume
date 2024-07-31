@@ -47,7 +47,7 @@ export const LoginAvatar = ({ userInfo , langName, liStyles, closeMenu, }: any) 
                 </Dropdown>
             </div>
             :
-            <div className={`${liStyles} w-18`}>
+            <div className={`${liStyles} w-18`} id="login-link">
                 <Link
                     href={`/${langName}/login`}
                     aria-label={'Log In'}
