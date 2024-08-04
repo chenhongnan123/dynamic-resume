@@ -15,3 +15,11 @@ services:
     restart: always
     ports:
       - 8081:8080
+
+  # nextjs:
+  #     image: nextjs-docker
+  #     ports:
+  #       - 3000:3000 # 对外暴露端口
+  #     command: ["npm", "run", "dev"] # 容器内启动命令docker compose up -d
+  #     depends_on:
+  #       - nextjs-learn-domes
