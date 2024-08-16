@@ -1,18 +1,17 @@
 "use client";
 
-import * as React from "react";
 import { NextUIProvider } from "@nextui-org/system";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { ThemeProviderProps } from "next-themes/dist/types";
+// import { ThemeProviderProps } from "next-themes/dist/types";
 import { I18nProvider } from '@react-aria/i18n';
 import axiosInstance from "@/lib/api/axios";
 import { useTranslation } from 'react-i18next';
 import { SnackbarProvider } from 'notistack';
-import { Spinner, Modal, useDisclosure, Button, ModalContent, ModalBody } from "@nextui-org/react";
+import { Spinner, Modal, useDisclosure, ModalContent, ModalBody } from "@nextui-org/react";
 export interface ProvidersProps {
   children: React.ReactNode;
-  themeProps?: ThemeProviderProps;
+  themeProps?: any;
 }
 
 export function Providers({ children, themeProps }: ProvidersProps) {

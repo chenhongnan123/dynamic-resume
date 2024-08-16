@@ -41,7 +41,7 @@ export default async function Home({
 }) {
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
   // const userInfo = await getCurrentUser();
-  const session = await getServerSession(authOptions) as Session | null | undefined;
+  const session = await getServerSession(authOptions) as any;
   // const session = await getServerSession();
   // console.log(resources, 'resources')
   return (
@@ -64,7 +64,7 @@ export default async function Home({
                   title="nextui.org homepage"
                 >
                   <span className="text-default-600">{t('footer.poweredBy')}</span>
-                  <p className="text-primary">{t('footer.nextUi')}</p>
+                  <p className="text-primary">{'hhc996'}</p>
                 </Link>
               </footer>
             </div>

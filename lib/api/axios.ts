@@ -20,7 +20,7 @@ const axiosInstance: MyRequestInstance = axios.create({
 axiosInstance.interceptors.request.use((req: any) => {
   window.showLoading();
   return req;
-}, (error) => {
+}, (error: AxiosError) => {
   window.hideLoading();
   return Promise.reject(error);
 })

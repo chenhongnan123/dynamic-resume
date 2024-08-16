@@ -1,13 +1,45 @@
 {
   "test": "Test",
   "header": {
-    "title": "Dynamic resume",
+    "title": "Dynamic Resume",
     "profile": "Profile",
     "skills": "Skills",
-    "experience": "Experience"
+    "experience": "Experience",
+    "login": "Login",
+    "editProfile": "Edit Profile",
+    "logout": "Logout"
+  },
+  "profile": {
+    "hireMe": "Hire Me",
+    "downloadCV": "Download CV",
+    "projectDemonstration": "Project Demonstration",
+    "profile": "Profile",
+    "name": "Name",
+    "position": "Position",
+    "introduction": "Introduction",
+    "hireLink": "Hire Link",
+    "uploadCV": "Upload .word/.pdf file",
+    "skills": "Skills",
+    "save": "Save",
+    "refresh": "Refresh",
+    "projectExperience": "Project Experience",
+    "durationTime": "Duration Time",
+    "technologyStack": "Technology Stack",
+    "company": "Company",
+    "projectDetails": "Project Details",
+    "upload": "Upload",
+    "file": "File",
+    "actions": "Actions",
+    "addSkill": "Add Skill",
+    "inputSkill": "Input Skill",
+    "canNotBeEmpty": "Can not be empty",
+    "letterOnly": "Letter only",
+    "close": "Close",
+    "confirm": "Confirm",
+    "addItem": "Add Item",
+    "deleteItem": "Delete Item"
   },
   "footer": {
-    "poweredBy": "Powered By",
-    "nextUi": "Next UI"
+    "poweredBy": "Powered By"
   }
 }

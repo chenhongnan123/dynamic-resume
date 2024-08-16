@@ -21,7 +21,7 @@ export default function EditProfile() {
       const router = useRouter()
       router.push(`/${langName}/login`)
     }
-    const [ userProfile, setUserProfile ] = useState<UserInfo>()
+    const [ userProfile, setUserProfile ] = useState();
     async function init() {
       const result = await httpGet(`${window.location.origin}/api/user?username=${userInfo?.name}`) as UserInfo
       setUserProfile(result)
