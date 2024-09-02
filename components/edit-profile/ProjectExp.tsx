@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { Button } from "@nextui-org/react";
 import { useState, useEffect, memo } from 'react';
 import { httpPost, httpGet } from "@/lib/api";
@@ -11,6 +10,7 @@ import ChipSelector from './ChipSelector';
 import { BsUpload, BsPlus, BsDash, BsFillXCircleFill } from "react-icons/bs";
 import { AiOutlineReload } from "react-icons/ai";
 import cloneDeep from 'lodash/cloneDeep';
+import { useTranslation } from 'react-i18next';
 
 const ProjectExp = ({
     userProfile,
@@ -19,34 +19,40 @@ const ProjectExp = ({
     userProfile: UserInfo;
     init: () => void;
   }) => {
+    const { t } = useTranslation();
     const [ isUpdated, setUpdated ] = useState(false)
+    type Column = {
+        name: string;
+        id: string;
+        width?: string;
+    }
 
-    const columns = [
+    const columns: Column[] = [
         {
-            name: "Duration time",
+            name: t('profile.durationTime'),
             id: "durationTime",
             width: "20%",
         },
         {
-            name: "Technology stack",
+            name: t('profile.technologyStack'),
             id: "technology_stack",
         },
         {
-            name: "Company",
+            name: t('profile.company'),
             id: "company_name",
             width: "10%",
         },
         {
-            name: "Project Details",
+            name: t('profile.projectDetails'),
             id: "details",
         },
         {
-            name: "File",
+            name: t('profile.file'),
             id: "filePath",
             width: "10%",
         },
         {
-            name: "ACTIONS",
+            name: t('profile.actions'),
             id: "actions",
             width: "120px",
         },
@@ -61,13 +67,13 @@ const ProjectExp = ({
         details: "",
     };
 
-    const [ projectExpList, setProjectExpList ] = useState<ProjectExpType[]>([
+    const [ projectExpList, setProjectExpList ] = useState([
         initialItem,
       ]);
 
     const renderCell = (item: ProjectExpType, columnKey: React.Key, index: number) => {
         const handleChangeValue = (data:  ProjectExpType[keyof ProjectExpType]) => {
-            setProjectExpList(list => {
+            setProjectExpList((list: ProjectExpType[]) => {
                 const newList = cloneDeep(list);
                 newList[index] = {
                     ...newList[index],
@@ -94,7 +100,7 @@ const ProjectExp = ({
                     "Content-Type": "multipart/form-data; boundary=----"
                 }
             } as any) as ProjectExpType;
-            setProjectExpList(list => {
+            setProjectExpList((list: ProjectExpType[]) => {
                 const newList = cloneDeep(list);
                 newList[index] = {
                     ...newList[index],
@@ -106,7 +112,7 @@ const ProjectExp = ({
         }
 
         const handleAddItem = () => {
-            setProjectExpList(list => {
+            setProjectExpList((list: ProjectExpType[]) => {
                 const newList = cloneDeep(list);
                 newList.splice(index + 1, 0, {
                     ...initialItem,
@@ -118,7 +124,7 @@ const ProjectExp = ({
         };
 
         const handleDeleteItem = () => {
-            setProjectExpList(list => {
+            setProjectExpList((list: ProjectExpType[]) => {
                 const newList = list.filter((i) => item.id !== i.id);
                 setUpdated(true);
                 return cloneDeep(newList);
@@ -138,10 +144,10 @@ const ProjectExp = ({
                             start: parseDate(start),
                             end: parseDate(end),
                         }}
-                        onChange={(data) => {
+                        onChange={(data: any) => {
                             const start = data.start.toDate(getLocalTimeZone()).getTime();
                             const end = data.end.toDate(getLocalTimeZone()).getTime();
-                            setProjectExpList(list => {
+                            setProjectExpList((list: ProjectExpType[]) => {
                                 const newList = cloneDeep(list);
                                 newList[index] = {
                                     ...newList[index],
@@ -185,7 +191,7 @@ const ProjectExp = ({
             return (
                 !cellValue ?
                     <div>
-                        <Tooltip content="Upload">
+                        <Tooltip content={t('profile.upload')}>
                             <Button
                             color="primary"
                             className="text-md"
@@ -207,7 +213,7 @@ const ProjectExp = ({
                         variant="light"
                         size="md"
                         onClick={() => {
-                            setProjectExpList(list => {
+                            setProjectExpList((list: ProjectExpType[]) => {
                                 const newList = cloneDeep(list);
                                 newList[index] = {
                                     ...newList[index],
@@ -225,7 +231,7 @@ const ProjectExp = ({
           case "actions":
             return (
                 <div className="relative flex items-center gap-2">
-                    <Tooltip content="Add Item">
+                    <Tooltip content={t('profile.addItem')}>
                         <Button
                         color="primary"
                         className="text-md"
@@ -237,7 +243,7 @@ const ProjectExp = ({
                             <BsPlus className="text-3xl" />
                         </Button>
                     </Tooltip>
-                    <Tooltip content="Delete">
+                    <Tooltip content={t('profile.deleteItem')}>
                         <Button
                         color="danger"
                         className="text-md"
@@ -281,7 +287,7 @@ const ProjectExp = ({
             username,
             sub,
         } = userProfile;
-        const payload = projectExpList.map((item, index) => ({
+        const payload = projectExpList.map((item: ProjectExpType, index: number) => ({
             ...item,
             userid: id,
             username,
@@ -299,9 +305,9 @@ const ProjectExp = ({
     return (
         <section className="py-8"  id="experience">
             <div className="flex ">
-            <div className="leading-8 text-xl">Project Experience</div>
+            <div className="leading-8 text-xl">{t('profile.projectExperience')}</div>
                 <div className="flex-1"></div>
-                <Tooltip content="Refresh">
+                <Tooltip content={t('profile.refresh')}>
                     <Button
                     color="primary"
                     className="text-md mr-2"
@@ -323,21 +329,21 @@ const ProjectExp = ({
                 isDisabled={!isUpdated}
                 onClick={updateintroduction}
                 >
-                    Save
+                    {t('profile.save')}
                 </Button>
             </div>
             <Table aria-label="Example table with custom cells" className="mt-2.5">
                 <TableHeader columns={columns}>
-                    {(column) => (
+                    {(column: Column) => (
                     <TableColumn key={column.id} width={column.width as any}>
                         {column.name}
                     </TableColumn>
                     )}
                 </TableHeader>
                 <TableBody items={projectExpList}>
-                    {(item) => (
+                    {(item: ProjectExpType) => (
                     <TableRow key={item.order}>
-                        {(columnKey) => <TableCell>{renderCell(item, columnKey, projectExpList.findIndex(i => i.timestamp === item.timestamp))}</TableCell>}
+                        {(columnKey: keyof Column) => <TableCell>{renderCell(item, columnKey, projectExpList.findIndex((i: ProjectExpType) => i.timestamp === item.timestamp))}</TableCell>}
                     </TableRow>
                     )}
                 </TableBody>

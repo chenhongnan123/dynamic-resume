@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useState, useMemo } from 'react';
 import { BsPlusCircle } from "react-icons/bs";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Button, Chip, Input, Tooltip } from "@nextui-org/react"
-
+import { useTranslation } from 'react-i18next';
 
 enum ResultEnum {
     DEFAULT = 'default',
@@ -33,6 +33,7 @@ const ChipSelector = ({
         ResultEnum.WARNING,
         ResultEnum.DANGER,
     ];
+    const { t } = useTranslation();
     // const chipColor = useMemo((index: any): ResultEnum => {
     //     const colors: ResultEnum[] = [
     //         ResultEnum.DEFAULT,
@@ -59,7 +60,7 @@ const ChipSelector = ({
     //     return colors[index];
     // }
 
-    const [chip, setChip] = useState<string>('');
+    const [chip, setChip] = useState('');
     const [ isInvalid, setIsInvalid ] = useState(false)
     const [ errorMessage, setErrorMessage ] = useState('')
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -90,7 +91,7 @@ const ChipSelector = ({
                     {chip}
                     </Chip>
                 ))}
-                <Tooltip content="Add skill">
+                <Tooltip content={t('profile.addSkill')}>
                     <Button
                     color="primary"
                     className="text-md"
@@ -109,19 +110,19 @@ const ChipSelector = ({
             </div>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
-                {(onClose) => (
+                {(onClose: any) => (
                     <>
-                    <ModalHeader className="flex flex-col gap-1">Add chip</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">{t('profile.addSkill')}</ModalHeader>
                     <ModalBody>
                         <Input
                         value={chip}
-                        type="email"
-                        label="Enter chip name"
+                        type="text"
+                        label={t('profile.addSkill')}
                         variant="bordered"
                         isInvalid={isInvalid}
                         color={isInvalid ? "danger" : "success"}
                         errorMessage={errorMessage}
-                        onValueChange={(value) => {
+                        onValueChange={(value: string) => {
                             setChip(value)
                             if (value === "") {
                                 setIsInvalid(true);
@@ -147,7 +148,7 @@ const ChipSelector = ({
                     </ModalBody>
                     <ModalFooter>
                         <Button color="danger" variant="light" onPress={onClose}>
-                        Close
+                        {t('profile.close')}
                         </Button>
                         <Button color="primary" onPress={() => {
                             if (chip === "" || chips.includes(chip)) {
@@ -157,7 +158,7 @@ const ChipSelector = ({
                             handleAddChips(chip);
                             onClose();
                         }}>
-                        Confirm
+                        {t('profile.confirm')}
                         </Button>
                     </ModalFooter>
                     </>

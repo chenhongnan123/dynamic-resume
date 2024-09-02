@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { UserInfo, ProjectExpType } from "@/types";
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-import { BsPersonWorkspace, BsPlus, BsDash, BsFillXCircleFill } from "react-icons/bs";
+import { BsPersonWorkspace } from "react-icons/bs";
 import { useTheme } from "next-themes";
-import { httpPost, httpGet } from "@/lib/api";
+import { httpGet } from "@/lib/api";
 import moment from "moment";
-import {Chip} from "@nextui-org/react"
+import { Chip } from "@nextui-org/react"
 
 
 enum ResultEnum {
@@ -44,7 +44,7 @@ const ProjectExp = ({
     ResultEnum.DANGER,
 ];
 
-  const [ projectExpList, setProjectExpList ] = useState<ProjectExpType[]>([initialItem]);
+  const [ projectExpList, setProjectExpList ] = useState([initialItem]);
   useEffect(() => {
     async function init() {
         const result = await httpGet(`${window.location.origin}/api/projectexp?username=${userProfile?.username}`) as ProjectExpType[];
@@ -79,7 +79,7 @@ const ProjectExp = ({
     <div id="experience">
       <VerticalTimeline lineColor={isDark ? '#fff' : '#7bd964'} >
         {
-          projectExpList.map((item) => (
+          projectExpList.map((item: ProjectExpType) => (
             <VerticalTimelineElement
               key={item.id}
               className="vertical-timeline-element--work"

@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 const MainContainer = () => {
   const params = useParams();
   const threeSenceRef = useRef(null);
-  const [ userProfile, setUserProfile ] = useState<UserInfo | null>();
+  const [ userProfile, setUserProfile ] = useState();
   useEffect(() => {
     async function init() {
       const result = await httpGet(`${window.location.origin}/api/user?username=${params.user}`) as UserInfo

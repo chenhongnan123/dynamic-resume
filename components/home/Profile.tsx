@@ -4,12 +4,14 @@ import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { UserInfo } from "@/types";
+import { useTranslation } from 'react-i18next';
 
 const introduction = ({
   userProfile,
 }: {
   userProfile: UserInfo,
 }) => {
+  const { t } = useTranslation();
   return (
     <section className="lg:py-6"  id="profile">
       <div className="grid grid-cols-1 sm:grid-cols-24">
@@ -50,7 +52,7 @@ const introduction = ({
               target="_blank"
               className="px-6 inline-block py-3 w-full md:w-fit rounded-full mr-4 bg-gradient-to-br from-primary-500 to-secondary-500 hover:bg-slate-200 text-white"
             >
-              Hire Me
+              {t('profile.hireMe')}
             </Link>}
             {userProfile.filePath && 
             <Link
@@ -59,7 +61,7 @@ const introduction = ({
               className="px-1 inline-block py-1 w-full md:w-fit rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 hover:bg-slate-800 text-white mt-3"
             >
               <span className="block bg-[#121212] hover:bg-slate-800 rounded-full px-5 py-2">
-                Download CV
+              {t('profile.downloadCV')}
               </span>
             </Link>}
           </div>

@@ -122,9 +122,9 @@ export const Navbar = () => {
             <Button
               isIconOnly
               variant="light"
-              className="home-button"
+              className="home-button text-4xl"
             >
-              <LiaAddressCard className="text-4xl"/>
+              <LiaAddressCard/>
             </Button>
             {!isLoginPage && <p className="hidden md:block font-bold text-inherit">{t('header.title')}</p>}
           </NextLink>
@@ -199,20 +199,20 @@ export const Navbar = () => {
                         href="/"
                         aria-label="Landing Page Boilerplate"
                         title="Landing Page Boilerplate"
-                        className="inline-flex items-center text-inherit"
+                        className="inline-flex items-center text-inherit text-4xl"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <LiaAddressCard className="text-4xl"/>
-                        <p className="font-bold text-inherit">Dynamic resume</p>
+                        <LiaAddressCard/>
+                        <p className="font-bold text-xl">{t('header.title')}</p>
                       </Link>
                       {isEditPage && <Link
                         href={`/${langName}/view/${userInfo?.name}`}
                         aria-label="Landing Page Boilerplate"
                         title="Landing Page Boilerplate"
-                        className="inline-flex items-center text-inherit"
+                        className="inline-flex items-center text-inherit text-4xl"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <LiaAddressCard className="text-4xl"/>
+                        <LiaAddressCard/>
                       </Link>}
                     </div>
                     <div>
@@ -245,23 +245,6 @@ export const Navbar = () => {
                   </nav>
                   <div className="pt-2">
                     <div className="flex items-center gap-x-5 justify-between">
-                      {/* <ul className="items-center gap-6 flex">
-                        {iconLinks.map((link) => (
-                          <li key={link.name}>
-                            <Link
-                              href={link.href}
-                              aria-label={link.name}
-                              title={link.name}
-                              target="_blank"
-                              className={liStyles}
-                            >
-                              {link.icon &&
-                                React.createElement(link.icon, { className: "text-lg" })}
-                            </Link>
-                          </li>
-                        ))}                      
-                      </ul> */}
-                      {/* <div className="flex items-center justify-end gap-x-5 w-1/2"> */}
                         <div className="flex max-w-[24px] flex-col items-center justify-center text-inherit">
                           <ThemeSwitch closeMenu={() => {setIsMenuOpen(false)}}/>
                         </div>

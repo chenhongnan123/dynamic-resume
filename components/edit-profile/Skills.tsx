@@ -7,6 +7,7 @@ import { Button } from "@nextui-org/react";
 import ChipSelector from './ChipSelector';
 import { AiOutlineReload } from "react-icons/ai";
 import { Tooltip } from "@nextui-org/react";
+import { useTranslation } from 'react-i18next';
 
 const Skills = ({
     userProfile,
@@ -17,6 +18,7 @@ const Skills = ({
     setUserProfile: (userProfile: UserInfo) => void
     init: () => void;
   }) => {
+    const { t } = useTranslation();
     const [ isUpdated, setUpdated ] = useState(false);
 
     const skills = useMemo(() => userProfile.skills ? userProfile.skills.split(',') : [], [userProfile]);
@@ -52,7 +54,7 @@ const Skills = ({
             <div className="flex">
                 <div className="leading-8 font-medium text-xl">Skills</div>
                 <div className="flex-1"></div>
-                <Tooltip content="Refresh">
+                <Tooltip content={t('profile.refresh')}>
                     <Button
                     color="primary"
                     className="text-md mr-2"
@@ -74,7 +76,7 @@ const Skills = ({
                 isDisabled={!isUpdated}
                 onClick={updateSkill}
                 >
-                    Save
+                    {t('profile.save')}
                 </Button>
             </div>
             <ChipSelector chips={skills} setChips={setSkills} setUpdated={setUpdated} size="lg"/>

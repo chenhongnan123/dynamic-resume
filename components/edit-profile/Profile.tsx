@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { Button } from "@nextui-org/react";
 import { useState } from 'react';
 import { httpPut, httpPost } from "@/lib/api";
@@ -7,6 +6,7 @@ import { UserInfo, File } from "@/types";
 import { AiOutlineReload } from "react-icons/ai";
 import { Tooltip } from "@nextui-org/react";
 import { BsUpload, BsFillXCircleFill } from "react-icons/bs";
+import { useTranslation } from 'react-i18next';
 
 const NamePosition = ({
     userProfile,
@@ -17,6 +17,7 @@ const NamePosition = ({
     setUserProfile: (userProfile: UserInfo) => void;
     init: () => void;
   }) => {
+    const { t } = useTranslation();
     const [ isUpdated, setUpdated ] = useState(false);
     async function updateintroduction() {
         const {
@@ -74,9 +75,9 @@ const NamePosition = ({
     return (
         <section className="py-8"  id="profile">
             <div className="flex">
-                <div className="leading-8 font-medium text-xl">Profile</div>
+                <div className="leading-8 font-medium text-xl">{t('profile.profile')}</div>
                 <div className="flex-1"></div>
-                <Tooltip content="Refresh">
+                <Tooltip content={t('profile.refresh')}>
                     <Button
                     color="primary"
                     className="text-md mr-2"
@@ -98,12 +99,12 @@ const NamePosition = ({
                 isDisabled={!isUpdated}
                 onClick={updateintroduction}
                 >
-                    Save
+                    {t('profile.save')}
                 </Button>
             </div>
             <div className="mt-2.5 grid md:grid-cols-1 md:grid-cols-2 md:gap-4">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-semibold leading-6">Name</label>
+                    <label htmlFor="name" className="block text-sm font-semibold leading-6">{t('profile.name')}</label>
                     <input
                     type="text"
                     name="name"
@@ -120,7 +121,7 @@ const NamePosition = ({
                     />
                 </div>
                 <div className="mt-2.5 md:mt-0 ">
-                    <label htmlFor="position" className="block text-sm font-semibold leading-6">Position</label>
+                    <label htmlFor="position" className="block text-sm font-semibold leading-6">{t('profile.position')}</label>
                     <input
                     type="text"
                     name="position"
@@ -137,7 +138,7 @@ const NamePosition = ({
                     />
                 </div>
                 <div className="mt-2.5 md:col-start-1 md:col-end-3">
-                    <label htmlFor="introduction" className="block text-sm font-semibold leading-6">Introduction</label>
+                    <label htmlFor="introduction" className="block text-sm font-semibold leading-6">{t('profile.introduction')}</label>
                     <textarea
                     name="introduction"
                     id="introduction"
@@ -155,7 +156,7 @@ const NamePosition = ({
                     </textarea>
                 </div>
                 <div className="mt-2.5 md:mt-0 ">
-                    <label htmlFor="hireLink" className="block text-sm font-semibold leading-6">Hire link</label>
+                    <label htmlFor="hireLink" className="block text-sm font-semibold leading-6">{t('profile.hireLink')}</label>
                     <input
                     type="text"
                     name="hireLink"
@@ -183,7 +184,7 @@ const NamePosition = ({
                                 >
                                     <label htmlFor="profileFile" className="w-full block text-sm font-semibold leading-6 flex justify-center gap-2">
                                         <BsUpload className="text-xl" />
-                                        <span>Upload word/pdf file</span>
+                                        <span>{t('profile.uploadCV')}</span>
                                     </label>
                                 </Button>
                             </Tooltip>
