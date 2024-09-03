@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { IconSvgProps } from "@/types";
 
-export const Logo: React.FC<IconSvgProps> = ({
+export const Logo: any = ({
   size = 36,
   width,
   height,
   ...props
-}) => (
+}: any) => (
   <svg
     fill="none"
     height={size || height}
@@ -24,12 +24,12 @@ export const Logo: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-export const DiscordIcon: React.FC<IconSvgProps> = ({
+export const DiscordIcon: any = ({
   size = 24,
   width,
   height,
   ...props
-}) => {
+}: any) => {
   return (
     <svg
       height={size || height}
@@ -45,12 +45,12 @@ export const DiscordIcon: React.FC<IconSvgProps> = ({
   );
 };
 
-export const TwitterIcon: React.FC<IconSvgProps> = ({
+export const TwitterIcon: any = ({
   size = 24,
   width,
   height,
   ...props
-}) => {
+}: any) => {
   return (
     <svg
       height={size || height}
@@ -66,12 +66,12 @@ export const TwitterIcon: React.FC<IconSvgProps> = ({
   );
 };
 
-export const GithubIcon: React.FC<IconSvgProps> = ({
+export const GithubIcon: any = ({
   size = 24,
   width,
   height,
   ...props
-}) => {
+}: any) => {
   return (
     <svg
       height={size || height}
@@ -186,7 +186,7 @@ export const SearchIcon = (props: IconSvgProps) => (
   </svg>
 );
 
-export const NextUILogo: React.FC<IconSvgProps> = (props) => {
+export const NextUILogo: any = (props: any) => {
   const { width, height = 40 } = props;
 
   return (

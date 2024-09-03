@@ -66,6 +66,6 @@ function Turtle(props: {
     mixer.timeScale = 0.5
     actions['Swim Cycle']?.play()
   }, [])
-  useFrame((state) => (scene.rotation.z = Math.sin(state.clock.elapsedTime / 4) / 2))
+  useFrame((state: any) => (scene.rotation.z = Math.sin(state.clock.elapsedTime / 4) / 2))
   return <primitive object={scene} {...props} />
 }

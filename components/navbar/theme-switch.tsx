@@ -15,11 +15,11 @@ export interface ThemeSwitchProps {
   closeMenu?: () => void;
 }
 
-export const ThemeSwitch: FC<ThemeSwitchProps> = ({
+export const ThemeSwitch: any = ({
   className,
   classNames,
   closeMenu,
-}) => {
+}: any) => {
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
 
@@ -39,7 +39,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
     isSelected: theme === "light" || isSSR,
     "aria-label": `Switch to ${theme === "light" || isSSR ? "dark" : "light"} mode`,
     onChange,
-  });
+  } as any);
 
   return (
     <Component

@@ -81,8 +81,8 @@ function Letter({ char, children, stencilBuffer = false, ...props } : {
 }) {
   const main = useRef() as any
   const contents = useRef() as any
-  const events = useThree((state) => state.events)
-  const controls = useThree((state) => state.controls) as any
+  const events = useThree((state: any) => state.events)
+  const controls = useThree((state: any) => state.controls) as any
   // The letters contents are moved to its whereabouts in world coordinates
   useFrame(() =>  contents.current.matrix.copy(main.current.matrixWorld))
   const RigidBodyComponent = RigidBody as any;
@@ -93,7 +93,7 @@ function Letter({ char, children, stencilBuffer = false, ...props } : {
       <Center ref={main as any}>
         <Text3D
           bevelEnabled
-          onDoubleClick={(e) => (e.stopPropagation(), controls.fitToBox(main.current, true))}
+          onDoubleClick={(e: any) => (e.stopPropagation(), controls.fitToBox(main.current, true))}
           font="/three/bold.blob"
           smooth={1}
           scale={0.125}

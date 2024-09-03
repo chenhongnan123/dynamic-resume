@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export type IconSvgProps = SVGProps<SVGSVGElement> & {
+export type IconSvgProps = any & {
   size?: number;
 };
 export interface UserInfo {

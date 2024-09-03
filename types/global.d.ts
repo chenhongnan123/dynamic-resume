@@ -25,6 +25,10 @@ declare module 'lodash/cloneDeep'
 declare module 'react-type-animation'
 declare module 'framer-motion'
 declare module 'react-vertical-timeline-component'
+declare module '@react-three/fiber'
+declare module '@react-three/drei'
+declare module '@react-three/rapier'
+
 
 
 

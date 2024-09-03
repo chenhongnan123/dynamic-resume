@@ -28,8 +28,13 @@ services:
   #     - nextjs-learn-domes
 
   nextjs:
-      image: next-test001
+      image: nextjs-docker
       ports:
         - 3000:3000 # 对外暴露端口
       depends_on:
         - nextjs-learn-domes
+      volumes:
+      - ./files:/app/public/files
+      - ./prisma:/app/prisma
+      - ./postgres:/app/postgres
+      # command: sh -c "npx prisma migrate dev --name 'init'"
